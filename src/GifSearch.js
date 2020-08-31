@@ -64,8 +64,10 @@ class GifSearch extends PureComponent {
       if (props.developmentMode != null) {
           this.developmentMode = props.developmentMode;
       }
-
-      this.fetchGifs()
+      this.loadingSpinnerColor = 'white';
+      if (props.loadingSpinnerColor != null) {
+          this.loadingSpinnerColor = props.loadingSpinnerColor;
+      }
 
   }
 
@@ -88,9 +90,13 @@ class GifSearch extends PureComponent {
           "limit": Math.min(this.gifsToLoad, this.maxGifsToLoad - this.state.offset),
           "offset": this.state.offset
       }). then((responseJSON) => {
-          this.setState({ gifs: [...new Set([...this.state.gifs, ...responseJSON.data])],
-                        offset: this.state.offset + this.gifsToLoad,
-                        fetching: false})
+          if (responseJSON.data.length > 0){
+            this.setState({ gifs: [...new Set([...this.state.gifs, ...responseJSON.data])],
+                            offset: this.state.offset + this.gifsToLoad,
+                            fetching: false})
+          } else {
+              this.setState({fetching: false})
+          }
       }).catch((error) => {
         this.setState({fetching: false})
         if (this.props.onError) {
@@ -105,9 +111,13 @@ class GifSearch extends PureComponent {
           "limit": Math.min(this.gifsToLoad, this.maxGifsToLoad - this.state.offset),
           "offset": this.state.offset
       }). then((responseJSON) => {
-          this.setState({ gifs: [...new Set([...this.state.gifs, ...new Set(responseJSON.data)])],
-                        offset: this.state.offset + this.gifsToLoad,
-                        fetching: false})         
+          if (responseJSON.data.length > 0){
+            this.setState({ gifs: [...new Set([...this.state.gifs, ...responseJSON.data])],
+                            offset: this.state.offset + this.gifsToLoad,
+                            fetching: false})
+          } else {
+              this.setState({fetching: false})
+          }       
       }).catch((error) => {
           this.setState({fetching: false})
           if (this.props.onError) {
@@ -137,6 +147,7 @@ class GifSearch extends PureComponent {
   }
 
   componentDidMount() {
+      this.fetchGifs()
       if (this.props.onBackPressed != null){
           BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
       }
@@ -159,13 +170,13 @@ class GifSearch extends PureComponent {
               placeholder="Αναζήτηση GIF"
               placeholderTextColor={this.placeholderTextColor}
               autoCapitalize='none'
-              style={[this.styles.textInput, {color: this.textColor}, this.props.textInputStyle]}
+              style={[this.styles.textInput, {width: this.developmentMode ? '100%' : '60%'}, this.props.textInputStyle]}
               onChangeText={this.onSearchTermChanged}
             />
             {!this.developmentMode ?
             (
                 <Image 
-                  source={this.darkGiphyLogo ? (require('./img/PoweredBy_200px-White_HorizText.png')) : (require('./img/PoweredBy_200px-Black_HorizText.png'))} 
+                  source={this.darkGiphyLogo ? (require('../img/PoweredBy_200px-White_HorizText.png')) : (require('../img/PoweredBy_200px-Black_HorizText.png'))} 
                   style={{width: '40%', height: 50, resizeMode: 'contain'}}
                 />
             )
@@ -177,7 +188,7 @@ class GifSearch extends PureComponent {
             onEndReached={this.loadMoreGifs}
             onEndReachedThreshold={0.95}
             onScroll={this.handleScroll}
-            style={this.styles.gifList}
+            style={[this.styles.gifList, this.props.gifListStyle]}
             data={this.state.gifs}
             horizontal={this.state.horizontal}
             renderItem={({item}) => {
@@ -189,17 +200,17 @@ class GifSearch extends PureComponent {
                 <TouchableOpacity activeOpacity={0.7} onPress={() => {this.props.onGifSelected(item.images.fixed_width_downsampled.url)}}>
                   <Image
                     resizeMode='contain'
-                    style={[this.styles.image, {aspectRatio: aspectRatio}]}
+                    style={[this.styles.image, {aspectRatio: aspectRatio}, this.props.gifStyle]}
                     source={{uri: item.images.preview_gif.url}}
                   />
                 </TouchableOpacity>
               )
             }}
             ListFooterComponent={(
-              this.state.offset < this.maxGifsToLoad ?
+              this.state.offset < this.maxGifsToLoad && this.state.fetching?
               (
                 <View style={{flex: 1, justifyContent: "center", alignItems: "center", width: 150}}>
-                    <Spinner size="large" color="#ffffff" />
+                    <Spinner size="large" color={this.loadingSpinnerColor} />
                 </View>
               )
               :
@@ -223,7 +234,6 @@ class GifSearch extends PureComponent {
       borderRadius: 10,
     },
     textInput: {
-      width: '60%',
       height: 50,
       fontSize: 20,
       paddingLeft: 10,
@@ -232,13 +242,12 @@ class GifSearch extends PureComponent {
     image: {
       height:150,
       marginRight: 20,
+      marginBottom: 20,
       borderWidth: 3,
     },
     gifList: {
-      height: 150,
-      marginBottom:10,
-      marginLeft:5,
-      marginRight:5,
+      height: 130,
+      margin: 5, 
     },
   });
 

@@ -8,9 +8,8 @@ export default class Requests {
         var promise = new Promise((resolve, reject) => {
 
             xhr.onreadystatechange = function () {
-
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status > 0) { // xhr.status == 0 => Request aborted, no internet or no server
-
+                    
                     try {
                         if (xhr.status == 401) {
                             reject("Unauthorized");
@@ -20,6 +19,9 @@ export default class Requests {
                         reject("Error");
                     }
 
+                }
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status == 0){
+                    reject("No interner")
                 }
 
             }
