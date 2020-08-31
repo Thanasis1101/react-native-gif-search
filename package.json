@@ -1,0 +1,28 @@
+{
+  "name": "react-native-gif-search",
+  "version": "1.0.0",
+  "description": "An easy-to-use, highly customizable react-native package for searching and selecting a gif using the Giphy API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thanasis1101/react-native-gif-search.git"
+  },
+  "keywords": [
+    "gif",
+    "giphy",
+    "react-native",
+    "gif-search",
+    "gif-picker",
+    "gif-selector",
+    "npm"
+  ],
+  "author": "Thanasis1101",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thanasis1101/react-native-gif-search/issues"
+  },
+  "homepage": "https://github.com/Thanasis1101/react-native-gif-search#readme"
+}
