@@ -1,5 +1,5 @@
 # react-native-gif-search
-> `react-native-gif-search` is an easy-to-use, highly customizable react-native package for searching and selecting a gif using the Giphy API.
+> An easy-to-use, highly customizable react-native package for searching and selecting a gif using the Giphy API.
 
 <p align="center">
   <a href="hhttps://www.npmjs.com/package/react-native-gif-search/">
