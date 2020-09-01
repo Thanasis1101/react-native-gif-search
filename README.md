@@ -2,8 +2,7 @@
 > An easy-to-use, highly customizable react-native package for searching and selecting a gif using the Giphy API.
 
 <p align="center">
-  <a href="hhttps://www.npmjs.com/package/react-native-gif-search/">
-  <img alt="npm downloads" src="https://img.shields.io/npm/dm/react-native-gif-search.svg"/></a>
+  <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="npm downloads" src="https://img.shields.io/npm/dm/react-native-gif-search.svg"/></a>
   <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="npm version" src="https://badge.fury.io/js/react-native-gif-search.svg"/></a>
 </p>
 
@@ -11,7 +10,7 @@
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%201.jpg" width="250" title="react-native-gif-searc screenshot 1">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-with-giphy-logo.gif" width="250" title="react-native-gif-search-with-giphy-logo">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-without-giphy-logo.gif" width="250" title="react-native-gif-search-without-giphy-logo">
-  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%202.jpg" width="755" title="react-native-gif-searc screenshot 2">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%202.jpg" width="757" title="react-native-gif-searc screenshot 2">
 </p>
 
 
@@ -20,7 +19,7 @@ This package allows you to present a searchable list of gifs to the user, from w
 ## Installation
 
 ```
-npm install react-native-gif-search
+npm install react-native-gif-search --save
 ```
 
 ### Android
@@ -93,3 +92,7 @@ You can see a full example project in the [example](example/) folder and more sp
 | `loadingSpinnerColor` | No | The color of the loading spinner | `'white'` |
 | `placeholderTextColor` | No | The color of the placeholder for the search text input | `'grey'` |
 | `showScrollBar` | No | Whether to show or not the scroll bar / scroll indicator | `true` |
+
+
+# License
+ISC
