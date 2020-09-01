@@ -1,7 +1,7 @@
 {
   "name": "example",
-  "version": "0.0.1",
-  "private": true,
+  "version": "1.0.4",
+  "private": false,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -13,7 +13,7 @@
     "native-base": "^2.13.14",
     "react": "16.13.1",
     "react-native": "0.63.2",
-    "react-native-gif-search": "file:../react-native-gif-search-1.0.0.tgz"
+    "react-native-gif-search": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "7.11.4",
