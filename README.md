@@ -1,5 +1,19 @@
 # react-native-gif-search
-`react-native-gif-search` is an easy-to-use, highly customizable react-native package for searching and selecting a gif using the Giphy API.
+> `react-native-gif-search` is an easy-to-use, highly customizable react-native package for searching and selecting a gif using the Giphy API.
+
+<p align="center">
+  <a href="hhttps://www.npmjs.com/package/react-native-gif-search/">
+  <img alt="npm downloads" src="https://img.shields.io/npm/dm/react-native-gif-search.svg"/></a>
+  <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="npm version" src="https://badge.fury.io/js/react-native-gif-search.svg"/></a>
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%201.jpg" width="250" title="react-native-gif-searc screenshot 1">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-with-giphy-logo.gif" width="250" title="react-native-gif-search-with-giphy-logo">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-without-giphy-logo.gif" width="250" title="react-native-gif-search-without-giphy-logo">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%202.jpg" width="755" title="react-native-gif-searc screenshot 2">
+</p>
+
 
 This package allows you to present a searchable list of gifs to the user, from which the user can select the desired gif. You can use this inside a chat screen, for posts, comments or wherever else you need. It uses the [Giphy API](https://developers.giphy.com/) so you need to create an account and obtain an API key which is free and easy. [This article](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8) was helpful for creating this package and has instrauctions on how to get an API key. If you wish to publish your app and go from development to production you need to upgrade the API key. To do so, you must verify that you have used the Giphy attribution marks (Giphy logos) in your app, by providing screenshots and videos from your app. The verification process can take up to 3 days. The `react-native-gif-search` package can help you with this too, because it has a property for adding dark or white version of the powered by Giphy logo (`developmentMode={false}`) as you can see in the preview above.
 
@@ -21,34 +35,38 @@ implementation 'com.facebook.fresco:animated-gif:2.0.0'
 ### Minimal example
 
 ```
-<GifSearch
-  giphyApiKey={YOUR_GIPHY_API_KEY}
-  onGifSelected={(gif_url)=>{alert(gif_url)}}
-/>
+<View style={{flex: 1}}>
+  <GifSearch
+    giphyApiKey={YOUR_GIPHY_API_KEY}
+    onGifSelected={(gif_url)=>{alert(gif_url)}}
+  />
+</View>
 ```
 
 ### Bigger example
 
 ```
-<GifSearch
-  giphyApiKey={YOUR_GIPHY_API_KEY}
-  gifsToLoad={10}
-  maxGifsToLoad={25}
-  style={{backgroundColor: 'white', borderWidth: 2}}
-  textInputStyle={{fontWeight: 'bold', color: 'black'}}
-  gifStyle={{height:160}}
-  loadingSpinnerColor={'black'}
-  placeholderTextColor={'grey'}
-  placeholderText={'Search'}
-  darkGiphyLogo={true}
-  onGifSelected={(gif_url) => {console.log(gif_url)}}
-  visible={this.state.visible}
-  onBackPressed={() => {this.setState({visible: false})}}
-  developmentMode={false}
-  horizontal={false}
-  showScrollBar={false}
-  onError={(error) => {console.log(error)}}
-/>
+<View style={{flex: 1}}>
+  <GifSearch
+    giphyApiKey={YOUR_GIPHY_API_KEY}
+    gifsToLoad={10}
+    maxGifsToLoad={25}
+    style={{backgroundColor: 'white', borderWidth: 3}}
+    textInputStyle={{fontWeight: 'bold', color: 'black'}}
+    gifStyle={{height:160}}
+    loadingSpinnerColor={'black'}
+    placeholderTextColor={'grey'}
+    placeholderText={'Search'}
+    darkGiphyLogo={true}
+    onGifSelected={(gif_url) => {console.log(gif_url)}}
+    visible={this.state.visible}
+    onBackPressed={() => {this.setState({visible: false})}}
+    developmentMode={false}
+    horizontal={false}
+    showScrollBar={false}
+    onError={(error) => {console.log(error)}}
+  />
+</View>
 ```
 
 You can see a full example project in the [example](example/) folder and more specifically in the [App.js](example/App.js) file.
