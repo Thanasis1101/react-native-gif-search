@@ -30,6 +30,7 @@ class GifSearch extends PureComponent {
         horizontal: this.props.horizontal != null ? this.props.horizontal : true,
         scrollOffset: 0,
         fetching: false,
+        gifsOver: false,
       }
 
       this.gifsToLoad = 15;
@@ -68,6 +69,15 @@ class GifSearch extends PureComponent {
       if (props.loadingSpinnerColor != null) {
           this.loadingSpinnerColor = props.loadingSpinnerColor;
       }
+      this.showScrollBar = true;
+      if (props.showScrollBar != null) {
+          this.showScrollBar = props.showScrollBar;
+      }
+      this.placeholderText = "Search GIF";
+      if (props.placeholderText != null) {
+          this.placeholderText = props.placeholderText;
+      }
+      
 
   }
 
@@ -75,7 +85,7 @@ class GifSearch extends PureComponent {
       if (this.state.fetching){
         return
       }
-      this.setState({fetching: true})
+      this.setState({fetching: true, gifsOver: false})
       if (this.state.term == ""){
           this.fetchTrendingGifs()
           return
@@ -91,14 +101,16 @@ class GifSearch extends PureComponent {
           "offset": this.state.offset
       }). then((responseJSON) => {
           if (responseJSON.data.length > 0){
-            this.setState({ gifs: [...new Set([...this.state.gifs, ...responseJSON.data])],
+            let responseUnique = responseJSON.data.filter((obj1, index1) => {return !responseJSON.data.some((obj2, index2) => obj1.id === obj2.id && index1 != index2)}); // remove duplicates
+            let newGifsUnique = responseUnique.filter(o1 => {return !this.state.gifs.some(o2 => o1.id === o2.id)}); // remove duplicates with previous gifs
+            this.setState({ gifs: [...this.state.gifs, ...newGifsUnique],
                             offset: this.state.offset + this.gifsToLoad,
                             fetching: false})
           } else {
-              this.setState({fetching: false})
+              this.setState({fetching: false, gifsOver: true})
           }
       }).catch((error) => {
-        this.setState({fetching: false})
+        this.setState({fetching: false, gifsOver: true})
         if (this.props.onError) {
           this.props.onError(error)
         }
@@ -112,14 +124,16 @@ class GifSearch extends PureComponent {
           "offset": this.state.offset
       }). then((responseJSON) => {
           if (responseJSON.data.length > 0){
-            this.setState({ gifs: [...new Set([...this.state.gifs, ...responseJSON.data])],
+            let responseUnique = responseJSON.data.filter((obj1, index1) => {return !responseJSON.data.some((obj2, index2) => obj1.id === obj2.id && index1 != index2)}); // remove duplicates
+            let newGifsUnique = responseUnique.filter(o1 => {return !this.state.gifs.some(o2 => o1.id === o2.id)}); // remove duplicates with previous gifs
+            this.setState({ gifs: [...this.state.gifs, ...newGifsUnique],
                             offset: this.state.offset + this.gifsToLoad,
                             fetching: false})
           } else {
-              this.setState({fetching: false})
+              this.setState({fetching: false, gifsOver: true})
           }       
       }).catch((error) => {
-          this.setState({fetching: false})
+          this.setState({fetching: false, gifsOver: true})
           if (this.props.onError) {
               this.props.onError(error)
           }
@@ -133,10 +147,8 @@ class GifSearch extends PureComponent {
   }
 
   loadMoreGifs = () => {
-      if (this.state.offset < this.maxGifsToLoad) {
+      if (this.state.offset < this.maxGifsToLoad && !this.state.gifsOver) {
           this.fetchGifs()
-      } else {
-          this.setState({scrollSize: this.state.scrollOffset})
       }
   }
 
@@ -167,7 +179,7 @@ class GifSearch extends PureComponent {
 
           <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' }}>
             <TextInput
-              placeholder="Αναζήτηση GIF"
+              placeholder={this.placeholderText}
               placeholderTextColor={this.placeholderTextColor}
               autoCapitalize='none'
               style={[this.styles.textInput, {width: this.developmentMode ? '100%' : '60%'}, this.props.textInputStyle]}
@@ -191,6 +203,8 @@ class GifSearch extends PureComponent {
             style={[this.styles.gifList, this.props.gifListStyle]}
             data={this.state.gifs}
             horizontal={this.state.horizontal}
+            showsHorizontalScrollIndicator={this.showScrollBar}
+            showsVerticalScrollIndicator={this.showScrollBar}
             renderItem={({item}) => {
               var aspectRatio = null;
               if (parseInt(item.images.preview_gif.height)) {
@@ -207,7 +221,7 @@ class GifSearch extends PureComponent {
               )
             }}
             ListFooterComponent={(
-              this.state.offset < this.maxGifsToLoad && this.state.fetching?
+              this.state.offset < this.maxGifsToLoad && !this.state.gifsOver?
               (
                 <View style={{flex: 1, justifyContent: "center", alignItems: "center", width: 150}}>
                     <Spinner size="large" color={this.loadingSpinnerColor} />
