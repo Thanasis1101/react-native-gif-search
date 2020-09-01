@@ -27,7 +27,6 @@ class GifSearch extends PureComponent {
         offset: 0,
         term: "",
         visible: this.props.visible != null ? this.props.visible : true,
-        horizontal: this.props.horizontal != null ? this.props.horizontal : true,
         scrollOffset: 0,
         fetching: false,
         gifsOver: false,
@@ -40,10 +39,6 @@ class GifSearch extends PureComponent {
       this.maxGifsToLoad = 60;
       if (props.maxGifsToLoad != null) {
           this.maxGifsToLoad = props.maxGifsToLoad;
-      }     
-      this.textColor = 'white';
-      if (props.textColor != null) {
-          this.textColor = props.textColor;
       }
       this.placeholderTextColor = 'grey';
       if (props.placeholderTextColor != null) {
@@ -73,6 +68,10 @@ class GifSearch extends PureComponent {
       if (props.placeholderText != null) {
           this.placeholderText = props.placeholderText;
       }
+      this.horizontal = true;
+      if (props.horizontal != null) {
+          this.horizontal = props.horizontal;
+      }
       
 
   }
@@ -97,18 +96,18 @@ class GifSearch extends PureComponent {
           "offset": this.state.offset
       }). then((responseJSON) => {
           if (responseJSON.data.length > 0){
-            let responseUnique = responseJSON.data.filter((obj1, index1) => {return !responseJSON.data.some((obj2, index2) => obj1.id === obj2.id && index1 != index2)}); // remove duplicates
-            let newGifsUnique = responseUnique.filter(o1 => {return !this.state.gifs.some(o2 => o1.id === o2.id)}); // remove duplicates with previous gifs
-            this.setState({ gifs: [...this.state.gifs, ...newGifsUnique],
-                            offset: this.state.offset + this.gifsToLoad,
-                            fetching: false})
+              let responseUnique = responseJSON.data.filter((obj1, index1) => {return !responseJSON.data.some((obj2, index2) => obj1.id === obj2.id && index1 != index2)}); // remove duplicates
+              let newGifsUnique = responseUnique.filter(o1 => {return !this.state.gifs.some(o2 => o1.id === o2.id)}); // remove duplicates with previous gifs
+              this.setState({ gifs: [...this.state.gifs, ...newGifsUnique],
+                              offset: this.state.offset + this.gifsToLoad,
+                              fetching: false})
           } else {
               this.setState({fetching: false, gifsOver: true})
           }
       }).catch((error) => {
         this.setState({fetching: false, gifsOver: true})
         if (this.props.onError) {
-          this.props.onError(error)
+            this.props.onError(error)
         }
     })     
   }
@@ -120,11 +119,11 @@ class GifSearch extends PureComponent {
           "offset": this.state.offset
       }). then((responseJSON) => {
           if (responseJSON.data.length > 0){
-            let responseUnique = responseJSON.data.filter((obj1, index1) => {return !responseJSON.data.some((obj2, index2) => obj1.id === obj2.id && index1 != index2)}); // remove duplicates
-            let newGifsUnique = responseUnique.filter(o1 => {return !this.state.gifs.some(o2 => o1.id === o2.id)}); // remove duplicates with previous gifs
-            this.setState({ gifs: [...this.state.gifs, ...newGifsUnique],
-                            offset: this.state.offset + this.gifsToLoad,
-                            fetching: false})
+              let responseUnique = responseJSON.data.filter((obj1, index1) => {return !responseJSON.data.some((obj2, index2) => obj1.id === obj2.id && index1 != index2)}); // remove duplicates
+              let newGifsUnique = responseUnique.filter(o1 => {return !this.state.gifs.some(o2 => o1.id === o2.id)}); // remove duplicates with previous gifs
+              this.setState({ gifs: [...this.state.gifs, ...newGifsUnique],
+                              offset: this.state.offset + this.gifsToLoad,
+                              fetching: false})
           } else {
               this.setState({fetching: false, gifsOver: true})
           }       
@@ -197,8 +196,9 @@ class GifSearch extends PureComponent {
             onEndReachedThreshold={0.95}
             onScroll={this.handleScroll}
             style={[this.styles.gifList, this.props.gifListStyle]}
+            contentContainerStyle={{alignItems: 'center'}}
             data={this.state.gifs}
-            horizontal={this.state.horizontal}
+            horizontal={this.horizontal}
             showsHorizontalScrollIndicator={this.showScrollBar}
             showsVerticalScrollIndicator={this.showScrollBar}
             renderItem={({item}) => {
@@ -210,7 +210,7 @@ class GifSearch extends PureComponent {
                 <TouchableOpacity activeOpacity={0.7} onPress={() => {this.props.onGifSelected(item.images.fixed_width_downsampled.url)}}>
                   <Image
                     resizeMode='contain'
-                    style={[this.styles.image, {aspectRatio: aspectRatio}, this.props.gifStyle]}
+                    style={[this.styles.image, {aspectRatio: aspectRatio}, this.horizontal ? {marginRight: 20} : {marginBottom: 20}, this.props.gifStyle]}
                     source={{uri: item.images.preview_gif.url}}
                   />
                 </TouchableOpacity>
@@ -251,8 +251,6 @@ class GifSearch extends PureComponent {
     },
     image: {
       height:150,
-      marginRight: 20,
-      marginBottom: 20,
       borderWidth: 3,
     },
     gifList: {
