@@ -9,7 +9,7 @@ import {
 
 import {GifSearch} from 'react-native-gif-search';
 
-const DEVELOPMENT_MODE = true;
+const DEVELOPMENT_MODE = false;
 
 export default class App extends React.Component {
 
@@ -33,7 +33,7 @@ export default class App extends React.Component {
               giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
               gifsToLoad={10}
               maxGifsToLoad={25}
-              style={{backgroundColor: '#9fd4ab', borderRadius: 0}}
+              style={{backgroundColor: '#9fd4ab'}}
               textInputStyle={{fontWeight: 'bold', color: 'black'}}
               gifStyle={{height:160}}
               loadingSpinnerColor={'black'}

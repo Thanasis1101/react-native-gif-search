@@ -172,7 +172,7 @@ class GifSearch extends PureComponent {
       (
         <View style={[this.styles.view, this.props.style]}>
 
-          <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{flexDirection: 'row', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' }}>
             <TextInput
               placeholder={this.placeholderText}
               placeholderTextColor={this.placeholderTextColor}
@@ -240,14 +240,14 @@ class GifSearch extends PureComponent {
       flex: 1,
       alignItems: 'center',
       backgroundColor: 'black',
-      padding: 10,
-      borderRadius: 10,
+      padding: 10
     },
     textInput: {
       height: 50,
       fontSize: 20,
       paddingLeft: 10,
       marginBottom: 10,
+      color: 'white'
     },
     image: {
       height:150,
@@ -255,7 +255,8 @@ class GifSearch extends PureComponent {
     },
     gifList: {
       height: 130,
-      margin: 5, 
+      margin: 5,
+      paddingBottom: 20,
     },
   });
 
