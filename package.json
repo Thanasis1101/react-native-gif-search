@@ -1,6 +1,6 @@
 {
   "name": "react-native-gif-search",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An easy-to-use, highly customizable react-native package for searching and selecting a gif using the Giphy API",
   "main": "index.js",
   "scripts": {
