@@ -2,13 +2,14 @@ import React from 'react';
 import {
     Text,
     View,
+    ScrollView,
     StyleSheet,
     Image,
 } from 'react-native';
 
 import {GifSearch} from 'react-native-gif-search';
 
-const DEVELOPMENT_MODE = false;
+const DEVELOPMENT_MODE = true;
 
 export default class App extends React.Component {
 
@@ -26,20 +27,23 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={{height: 250}}>
             <GifSearch
-              style={{backgroundColor: 'yellow', borderRadius: 0}}
+              giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
+              gifsToLoad={10}
+              maxGifsToLoad={25}
+              style={{backgroundColor: '#9fd4ab', borderRadius: 0}}
               textInputStyle={{fontWeight: 'bold', color: 'black'}}
               gifStyle={{height:160}}
               loadingSpinnerColor={'black'}
               placeholderTextColor={'grey'}
               darkGiphyLogo={true}
-              giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
               onGifSelected={this.onGifSelected}
               visible={true}
               developmentMode={DEVELOPMENT_MODE}
               horizontal={true}
+              showScrollBar={false}
               onError={(error) => {console.log(error)}}
             />
         </View>
@@ -47,7 +51,7 @@ export default class App extends React.Component {
             {this.state.gif_url ?
             (
               <View>
-                <Text style={{textAlign:'center'}}>Selected Gif:</Text>
+                <Text style={{textAlign:'center', fontSize: 20}}>Selected Gif:</Text>
                 <View style={styles.gifContainer}>
                     <Image
                       style={styles.gif}
@@ -69,14 +73,14 @@ export default class App extends React.Component {
             :
             (
               <View>
-                <Text style={{textAlign:'center'}}>Selected Gif: None</Text>
+                <Text style={{textAlign:'center', fontSize: 20}}>Selected Gif: None</Text>
               </View>
             )
             }
             
         </View>
 
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -88,7 +92,8 @@ const styles = StyleSheet.create({
   gifPreview: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 20,
   },
   gifContainer: {
     width: 210,
