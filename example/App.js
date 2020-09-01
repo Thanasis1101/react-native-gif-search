@@ -17,8 +17,7 @@ export default class App extends React.Component {
       super(props);
 
       this.state = {
-          gif_url: null,
-          visible: true,
+          gif_url: null
       }
   }
 
@@ -29,25 +28,24 @@ export default class App extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <View style={{height: 250}}><GifSearch
-      giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
-      gifsToLoad={10}
-      maxGifsToLoad={25}
-      style={{backgroundColor: 'white'}}
-      textInputStyle={{fontWeight: 'bold', color: 'black'}}
-      gifStyle={{height:160}}
-      loadingSpinnerColor={'black'}
-      placeholderTextColor={'grey'}
-      placeholderText={'Search'}
-      darkGiphyLogo={true}
-      onGifSelected={(gif_url) => {console.log(gif_url)}}
-      visible={this.state.visible}
-      onBackPressed={() => {this.setState({visible: false})}}
-      developmentMode={false}
-      horizontal={true}
-      showScrollBar={false}
-      onError={(error) => {console.log(error)}}
-    />
+        <View style={{height: 250}}>
+            <GifSearch
+              giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
+              gifsToLoad={10}
+              maxGifsToLoad={25}
+              style={{backgroundColor: '#9fd4ab', borderRadius: 0}}
+              textInputStyle={{fontWeight: 'bold', color: 'black'}}
+              gifStyle={{height:160}}
+              loadingSpinnerColor={'black'}
+              placeholderTextColor={'grey'}
+              darkGiphyLogo={true}
+              onGifSelected={this.onGifSelected}
+              visible={true}
+              developmentMode={DEVELOPMENT_MODE}
+              horizontal={true}
+              showScrollBar={false}
+              onError={(error) => {console.log(error)}}
+            />
         </View>
         <View style={styles.gifPreview}>
             {this.state.gif_url ?
