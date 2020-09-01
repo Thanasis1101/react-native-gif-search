@@ -57,10 +57,6 @@ class GifSearch extends PureComponent {
       if (props.darkGiphyLogo != null) {
           this.darkGiphyLogo = props.darkGiphyLogo;
       }
-      this.closeOnBackPressed = false;
-      if (props.closeOnBackPressed != null) {
-          this.closeOnBackPressed = props.closeOnBackPressed;
-      }
       this.developmentMode = true;
       if (props.developmentMode != null) {
           this.developmentMode = props.developmentMode;
