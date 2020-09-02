@@ -30,42 +30,43 @@ implementation 'com.facebook.fresco:fresco:2.0.0'
 implementation 'com.facebook.fresco:animated-gif:2.0.0'
 ```
 ## Usage
+### Import
+
+```
+import {GifSearch} from 'react-native-gif-search'
+```
 
 ### Minimal example
 
 ```
-<View style={{flex: 1}}>
-  <GifSearch
-    giphyApiKey={YOUR_GIPHY_API_KEY}
-    onGifSelected={(gif_url)=>{alert(gif_url)}}
-  />
-</View>
+<GifSearch
+  giphyApiKey={YOUR_GIPHY_API_KEY}
+  onGifSelected={(gif_url)=>{alert(gif_url)}}
+/>
 ```
 
 ### Bigger example
 
 ```
-<View style={{flex: 1}}>
-  <GifSearch
-    giphyApiKey={YOUR_GIPHY_API_KEY}
-    gifsToLoad={10}
-    maxGifsToLoad={25}
-    style={{backgroundColor: 'white', borderWidth: 3}}
-    textInputStyle={{fontWeight: 'bold', color: 'black'}}
-    gifStyle={{height:160}}
-    loadingSpinnerColor={'black'}
-    placeholderTextColor={'grey'}
-    placeholderText={'Search'}
-    darkGiphyLogo={true}
-    onGifSelected={(gif_url) => {console.log(gif_url)}}
-    visible={this.state.visible}
-    onBackPressed={() => {this.setState({visible: false})}}
-    developmentMode={false}
-    horizontal={false}
-    showScrollBar={false}
-    onError={(error) => {console.log(error)}}
-  />
-</View>
+<GifSearch
+  giphyApiKey={YOUR_GIPHY_API_KEY}
+  gifsToLoad={10}
+  maxGifsToLoad={25}
+  style={{backgroundColor: 'white', borderWidth: 3}}
+  textInputStyle={{fontWeight: 'bold', color: 'black'}}
+  gifStyle={{height:160}}
+  loadingSpinnerColor={'black'}
+  placeholderTextColor={'grey'}
+  placeholderText={'Search'}
+  darkGiphyLogo={true}
+  onGifSelected={(gif_url) => {console.log(gif_url)}}
+  visible={this.state.visible}
+  onBackPressed={() => {this.setState({visible: false})}}
+  developmentMode={false}
+  horizontal={false}
+  showScrollBar={false}
+  onError={(error) => {console.log(error)}}
+/>
 ```
 
 You can see a full example project in the [example](example/) folder and more specifically in the [App.js](example/App.js) file.
@@ -75,6 +76,7 @@ You can see a full example project in the [example](example/) folder and more sp
 | Property name | Required | Explanation | Default |
 | --- | --- | --- | --- |
 | `giphyApiKey` | Yes | The Giphy API key you obtained (see step 1 [here](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8)) |  |
+| `onGifSelected` | Yes | Function to be called when user clicked on a gif | |
 | `gifsToLoad` | No | How many gifs to load in the beginning and every time the user reaches the scroll end | `15` |
 | `maxGifsToLoad` | No | On how many gifs to stop loading more gifs | `60` |
 | `developmentMode` | No | Giphy logo appears on top right corner, if set to false (this is required by Giphy when publishing your app) | `true` |
@@ -83,7 +85,6 @@ You can see a full example project in the [example](example/) folder and more sp
 | `visible` | No | Can be used for toggling the view for the gif selection (e.g. open on button press) | `true` |
 | `onBackPressed` | No | Function for when the device's back button is pressed. Used with `visible={this.state.visible}` for closing the gif selection when back button is pressed. If not set then default action is taken. If set then default action is ignored while gif selection is visible. Recommended usage: `onBackPressed={() => {this.setState({visible: false})}}` | |
 | `onError` | No | Function to be called when an error occures, e.g. no internet connection | |
-| `onGifSelected` | Yes | Function to be called when user clicked on a gif | |
 | `horizontal` | No | Set the orientation of the list with the gifs. Horizontal if true, vertical if false  | `true` |
 | `style` | No | The component's style property (e.g. `style={{backgroundColor: 'yellow', borderRadius: 0}}`) | |
 | `textInputStyle` | No | The style of the search text input | |
@@ -95,4 +96,4 @@ You can see a full example project in the [example](example/) folder and more sp
 
 
 # License
-ISC
+[ISC](LICENSE)
