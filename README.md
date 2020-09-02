@@ -38,6 +38,7 @@ import {GifSearch} from 'react-native-gif-search'
 
 ### Minimal example
 
+  
 ```
 <GifSearch
   giphyApiKey={YOUR_GIPHY_API_KEY}
@@ -45,15 +46,20 @@ import {GifSearch} from 'react-native-gif-search'
 />
 ```
 
-### Bigger example
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%203.jpg" width="300" title="react-native-gif-searc screenshot 3">
+</p>
 
+
+### Bigger example
 ```
 <GifSearch
   giphyApiKey={YOUR_GIPHY_API_KEY}
   gifsToLoad={10}
   maxGifsToLoad={25}
-  style={{backgroundColor: 'white', borderWidth: 3}}
+  style={{backgroundColor: 'white', borderWidth: 3, borderRadius: 10}}
   textInputStyle={{fontWeight: 'bold', color: 'black'}}
+  gifListStyle={{height:320}}
   gifStyle={{height:160}}
   loadingSpinnerColor={'black'}
   placeholderTextColor={'grey'}
@@ -68,6 +74,10 @@ import {GifSearch} from 'react-native-gif-search'
   onError={(error) => {console.log(error)}}
 />
 ```
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%204.jpg" width="250" title="react-native-gif-searc screenshot 4">
+</p>
 
 You can see a full example project in the [example](example/) folder and more specifically in the [App.js](example/App.js) file.
 
