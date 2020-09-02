@@ -193,7 +193,7 @@ class GifSearch extends PureComponent {
           </View>
           <FlatList
             onEndReached={this.loadMoreGifs}
-            onEndReachedThreshold={0.95}
+            onEndReachedThreshold={0.98}
             onScroll={this.handleScroll}
             style={[this.styles.gifList, this.props.gifListStyle]}
             contentContainerStyle={{alignItems: 'center'}}
@@ -210,7 +210,7 @@ class GifSearch extends PureComponent {
                 <TouchableOpacity activeOpacity={0.7} onPress={() => {this.props.onGifSelected(item.images.fixed_width_downsampled.url)}}>
                   <Image
                     resizeMode='contain'
-                    style={[this.styles.image, {aspectRatio: aspectRatio}, this.horizontal ? {marginRight: 20} : {marginBottom: 20}, this.props.gifStyle]}
+                    style={[this.styles.image, {aspectRatio: aspectRatio ? aspectRatio : 4/3}, this.horizontal ? {marginRight: 20} : {marginBottom: 20}, this.props.gifStyle]}
                     source={{uri: item.images.preview_gif.url}}
                   />
                 </TouchableOpacity>
@@ -219,7 +219,7 @@ class GifSearch extends PureComponent {
             ListFooterComponent={(
               this.state.offset < this.maxGifsToLoad && !this.state.gifsOver?
               (
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center", width: 150}}>
+                <View style={{ justifyContent:'center', width: 150, height: 150}}>
                     <Spinner size="large" color={this.loadingSpinnerColor} />
                 </View>
               )
@@ -254,7 +254,7 @@ class GifSearch extends PureComponent {
       borderWidth: 3,
     },
     gifList: {
-      height: 130,
+      height: 160,
       margin: 5,
       paddingBottom: 20,
     },
