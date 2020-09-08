@@ -73,6 +73,10 @@ class GifSearch extends PureComponent {
           this.horizontal = props.horizontal;
       }
       
+      this.numColumns = null;
+      if (props.numColumns != null && !props.horizontal) {
+          this.numColumns = props.numColumns;
+      }
 
   }
 
@@ -199,6 +203,7 @@ class GifSearch extends PureComponent {
             contentContainerStyle={{alignItems: 'center'}}
             data={this.state.gifs}
             horizontal={this.horizontal}
+            numColumns={this.numColumns}
             showsHorizontalScrollIndicator={this.showScrollBar}
             showsVerticalScrollIndicator={this.showScrollBar}
             renderItem={({item}) => {
