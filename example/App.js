@@ -30,15 +30,20 @@ export default class App extends React.Component {
       <ScrollView style={styles.container}>
         <GifSearch
           giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
-          style={{backgroundColor: '#9fd4ab', height:300}}
+          gifsToLoad={10}
+          maxGifsToLoad={25}
+          style={{backgroundColor: '#9fd4ab'}}
           textInputStyle={{fontWeight: 'bold', color: 'black'}}
+          gifStyle={{height:160}}
           loadingSpinnerColor={'black'}
           placeholderTextColor={'grey'}
           darkGiphyLogo={true}
           onGifSelected={this.onGifSelected}
-          numColumns={5}
-          developmentMode={false}
+          visible={true}
+          developmentMode={DEVELOPMENT_MODE}
+          horizontal={true}
           showScrollBar={false}
+          onError={(error) => {console.log(error)}}
         />
         <View style={styles.gifPreview}>
             {this.state.gif_url ?
