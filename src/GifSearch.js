@@ -222,7 +222,11 @@ class GifSearch extends PureComponent {
                   aspectRatio = parseInt(item.images.preview_gif.width)/parseInt(item.images.preview_gif.height)
               }
               return (
-                <TouchableOpacity activeOpacity={0.7} onPress={() => {this.props.onGifSelected(item.images.fixed_width_downsampled.url)}}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => {this.props.onGifSelected(item.images.fixed_width_downsampled.url)}}
+                  onLongPress={() => {if (this.props.onGifLongPress) {this.props.onGifLongPress(item.images.fixed_width_downsampled.url)}}}>
+                    
                   <Image
                     resizeMode={'cover'}
                     style={[this.styles.image, this.numColumns > 1 ? {width:this.state.gifSize, minHeight: this.state.gifSize, maxHeight:this.state.gifSize} : {aspectRatio: aspectRatio ? aspectRatio : 4/3, height: 150}, this.props.gifStyle]}
