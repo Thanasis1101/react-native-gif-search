@@ -1,8 +1,6 @@
 import React, { PureComponent, useState } from 'react';
 import {
   View,
-  Text,
-  Dimensions,
   StyleSheet,
   Image,
   TouchableOpacity,
@@ -73,6 +71,15 @@ class GifSearch extends PureComponent {
           this.horizontal = props.horizontal;
       }
       
+      this.numColumns = null;
+      if (props.numColumns != null && !props.horizontal) {
+          this.numColumns = props.numColumns;
+      }
+
+      this.gifListProps = null;
+      if (props.gifListProps != null) {
+        this.gifListProps = props.gifListProps
+      }
 
   }
 
@@ -199,8 +206,10 @@ class GifSearch extends PureComponent {
             contentContainerStyle={{alignItems: 'center'}}
             data={this.state.gifs}
             horizontal={this.horizontal}
+            numColumns={this.numColumns}
             showsHorizontalScrollIndicator={this.showScrollBar}
             showsVerticalScrollIndicator={this.showScrollBar}
+            {...this.gifListProps}
             renderItem={({item}) => {
               var aspectRatio = null;
               if (parseInt(item.images.preview_gif.height)) {
