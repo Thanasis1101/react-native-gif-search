@@ -224,8 +224,8 @@ class GifSearch extends PureComponent {
               return (
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  onPress={() => {this.props.onGifSelected(item.images.fixed_width_downsampled.url)}}
-                  onLongPress={() => {if (this.props.onGifLongPress) {this.props.onGifLongPress(item.images.fixed_width_downsampled.url)}}}>
+                  onPress={() => {this.props.onGifSelected(item.images.fixed_width.url)}}
+                  onLongPress={() => {if (this.props.onGifLongPress) {this.props.onGifLongPress(item.images.fixed_width.url)}}}>
                     
                   <Image
                     resizeMode={'cover'}
