@@ -45,8 +45,8 @@ export default class App extends React.Component {
           showScrollBar={false}
           onError={(error) => {console.log(error)}}
           noGifsFoundText={"No Gifs found :("}
-          noGifsFoundTextStyle={{fontWeight:'bold'}}
-          textInputProps={{autoFocus:true}}
+          noGifsFoundTextStyle={{fontWeight: 'bold'}}
+          textInputProps={{autoFocus: true}}
         />
         <View style={styles.gifPreview}>
             {this.state.gif_url ?
