@@ -1,11 +1,8 @@
 {
-  "name": "@thanasis1101/react-native-gif-search",
+  "name": "react-native-gif-search",
   "version": "1.0.9",
   "description": "An easy-to-use, highly customizable react-native package for searching and selecting a gif using the Giphy API",
   "main": "index.js",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
