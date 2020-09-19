@@ -7,7 +7,9 @@ import {
   TextInput,
   FlatList,
   BackHandler,
-  Dimensions
+  Dimensions,
+  Keyboard,
+  Text
 } from 'react-native';
 
 import {Spinner} from 'native-base'
@@ -29,6 +31,7 @@ class GifSearch extends PureComponent {
         scrollOffset: 0,
         fetching: false,
         gifsOver: false,
+        noGifsFound: false,
       }
 
       this.gifsToLoad = 15;
@@ -67,6 +70,10 @@ class GifSearch extends PureComponent {
       if (props.placeholderText != null) {
           this.placeholderText = props.placeholderText;
       }
+      this.noGifsFoundText = "No GIFS found";
+      if (props.noGifsFoundText != null) {
+          this.noGifsFoundText = props.noGifsFoundText;
+      }
       this.horizontal = true;
       if (props.horizontal != null) {
           this.horizontal = props.horizontal;
@@ -77,10 +84,7 @@ class GifSearch extends PureComponent {
           this.horizontal = false;
           this.state.gifSize = Dimensions.get('window').width / this.numColumns - 20;
       }
-      this.gifListProps = null;
-      if (props.gifListProps != null) {
-          this.gifListProps = props.gifListProps;
-      }
+      
 
   }
 
@@ -110,7 +114,7 @@ class GifSearch extends PureComponent {
                               offset: this.state.offset + this.gifsToLoad,
                               fetching: false})
           } else {
-              this.setState({fetching: false, gifsOver: true})
+              this.setState({fetching: false, gifsOver: true, noGifsFound: this.state.gifs.length == 0})
           }
       }).catch((error) => {
         this.setState({fetching: false, gifsOver: true})
@@ -133,7 +137,7 @@ class GifSearch extends PureComponent {
                               offset: this.state.offset + this.gifsToLoad,
                               fetching: false})
           } else {
-              this.setState({fetching: false, gifsOver: true})
+              this.setState({fetching: false, gifsOver: true, noGifsFound: this.state.gifs.length == 0})
           }       
       }).catch((error) => {
           this.setState({fetching: false, gifsOver: true})
@@ -182,7 +186,7 @@ class GifSearch extends PureComponent {
   render() {
     return (
       this.props.visible == null || this.props.visible ?
-      (
+      (          
         <View style={[this.styles.view, this.props.style]}>
 
           <View style={{flexDirection: 'row', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' }}>
@@ -192,6 +196,7 @@ class GifSearch extends PureComponent {
               autoCapitalize='none'
               style={[this.styles.textInput, {width: this.developmentMode ? '100%' : '60%'}, this.props.textInputStyle]}
               onChangeText={this.onSearchTermChanged}
+              {...this.props.textInputProps}
             />
             {!this.developmentMode ?
             (
@@ -208,6 +213,7 @@ class GifSearch extends PureComponent {
             onEndReached={this.loadMoreGifs}
             onEndReachedThreshold={0.98}
             onScroll={this.handleScroll}
+            keyboardShouldPersistTaps={"handled"}
             style={[this.styles.gifList, this.props.gifListStyle]}
             contentContainerStyle={{alignItems: 'center'}}
             data={this.state.gifs}
@@ -215,7 +221,7 @@ class GifSearch extends PureComponent {
             numColumns={this.numColumns}
             showsHorizontalScrollIndicator={this.showScrollBar}
             showsVerticalScrollIndicator={this.showScrollBar}
-            {...this.gifListProps}
+            {...this.props.gifListProps}
             renderItem={({item}) => {
               var aspectRatio = null;
               if (parseInt(item.images.preview_gif.height)) {
@@ -224,8 +230,8 @@ class GifSearch extends PureComponent {
               return (
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  onPress={() => {this.props.onGifSelected(item.images.fixed_width_downsampled.url)}}
-                  onLongPress={() => {if (this.props.onGifLongPress) {this.props.onGifLongPress(item.images.fixed_width_downsampled.url)}}}>
+                  onPress={() => {this.props.onGifSelected(item.images.downsized.url, item); Keyboard.dismiss()}}
+                  onLongPress={() => {if (this.props.onGifLongPress) {this.props.onGifLongPress(item.images.downsized.url, item)}}}>
                     
                   <Image
                     resizeMode={'cover'}
@@ -243,7 +249,15 @@ class GifSearch extends PureComponent {
                 </View>
               )
               :
-              (null)
+              (this.state.noGifsFound?
+                (
+                  <View style={{ justifyContent:'center', width: 150, height: 150}}>
+                      <Text style={[{textAlign: 'center', fontSize: 20, color: 'grey'}, this.props.noGifsFoundTextStyle]}>{this.noGifsFoundText}</Text>
+                  </View>
+                )
+                :
+                (null)
+              )
             )}
           />
         </View>

@@ -21,13 +21,13 @@ export default class App extends React.Component {
       }
   }
 
-  onGifSelected = (gif_url) => {
+  onGifSelected = (gif_url, gif_object) => {
       this.setState({gif_url})
   }
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} keyboardShouldPersistTaps={"handled"}>
         <GifSearch
           giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
           gifsToLoad={10}
@@ -44,6 +44,9 @@ export default class App extends React.Component {
           horizontal={true}
           showScrollBar={false}
           onError={(error) => {console.log(error)}}
+          noGifsFoundText={"No Gifs found :("}
+          noGifsFoundTextStyle={{fontWeight:'bold'}}
+          textInputProps={{autoFocus:true}}
         />
         <View style={styles.gifPreview}>
             {this.state.gif_url ?
