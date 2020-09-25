@@ -38,8 +38,11 @@ implementation 'com.facebook.fresco:animated-gif:2.0.0'
 ### Import
 
 ```
-import {GifSearch} from 'react-native-gif-search'
+import {GifSearch, giphyLogo, giphyLogoDark} from 'react-native-gif-search'
 ```
+- **GifSearch**: The gif searching component
+- **giphyLogo**: The white Giphy logo for use in an Image (`<Image source={giphyLogo} />`)
+- **giphyLogoDark**: The grey Giphy logo for use in an Image (`<Image source={giphyLogoDark} />`)
 
 ### Minimal example
 
@@ -141,6 +144,12 @@ You can see a full example project in the [example](example/) folder and more sp
 | `noGifsFoundTextStyle` | No | The style of the text that is displayed when no gifs are found | |
 
 ## Version History
+
+- v1.0.10
+  - **giphyLogo, giphyLogoDark**: Now you can also import the giphyLogo and the giphyLogoDark from the module and use it as a `source` of an `Image` component (like in [example code](/example/App.js)).
+  - **Fixes**:
+    - Bigger width for "no gifs found" text.
+  
 
 - v1.0.8
   - **No GIFS found**: Displaying a text when there are no gifs matching the search term. See [Properties](#properties) section.
