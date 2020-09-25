@@ -251,7 +251,7 @@ class GifSearch extends PureComponent {
               :
               (this.state.noGifsFound?
                 (
-                  <View style={{ justifyContent:'center', width: 150, height: 150}}>
+                  <View style={{ justifyContent:'center'}}>
                       <Text style={[{textAlign: 'center', fontSize: 20, color: 'grey'}, this.props.noGifsFoundTextStyle]}>{this.noGifsFoundText}</Text>
                   </View>
                 )

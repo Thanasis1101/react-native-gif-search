@@ -7,7 +7,7 @@ import {
     Image,
 } from 'react-native';
 
-import {GifSearch} from 'react-native-gif-search';
+import {GifSearch, giphyLogo, giphyLogoDark} from 'react-native-gif-search';
 
 const DEVELOPMENT_MODE = false;
 
@@ -61,7 +61,7 @@ export default class App extends React.Component {
                     {!DEVELOPMENT_MODE ?
                     (
                       <Image 
-                        source={require('example/img/PoweredBy_200px-White_HorizText.png')} 
+                        source={giphyLogoDark} 
                         style={styles.giphyLogo}
                       />
                     )
