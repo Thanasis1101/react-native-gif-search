@@ -1,2 +1,3 @@
 *.tgz
 example/android/local.properties
+node_modules/

@@ -7,12 +7,11 @@ import {
   TextInput,
   FlatList,
   BackHandler,
+  ActivityIndicator,
   Dimensions,
   Keyboard,
   Text
 } from 'react-native';
-
-import {Spinner} from 'native-base'
 
 import Requests from './Requests';
 
@@ -245,7 +244,7 @@ class GifSearch extends PureComponent {
               this.state.offset < this.maxGifsToLoad && !this.state.gifsOver?
               (
                 <View style={{ justifyContent:'center', width: 150, height: 150}}>
-                    <Spinner size="large" color={this.loadingSpinnerColor} />
+                    <ActivityIndicator size="large" color={this.loadingSpinnerColor} />
                 </View>
               )
               :

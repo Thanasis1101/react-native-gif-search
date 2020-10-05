@@ -26,7 +26,5 @@
     "url": "https://github.com/Thanasis1101/react-native-gif-search/issues"
   },
   "homepage": "https://github.com/Thanasis1101/react-native-gif-search#readme",
-  "dependencies": {
-    "native-base": "^2.13.14"
-  }
+  "dependencies": {}
 }
