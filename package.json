@@ -1,11 +1,8 @@
 {
-  "name": "@thanasis1101/react-native-gif-search",
+  "name": "react-native-gif-search",
   "version": "1.0.12",
   "description": "An easy-to-use, highly customizable react-native package for searching and selecting a gif using the Giphy API",
   "main": "index.js",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,7 +26,5 @@
     "url": "https://github.com/Thanasis1101/react-native-gif-search/issues"
   },
   "homepage": "https://github.com/Thanasis1101/react-native-gif-search#readme",
-  "dependencies": {
-    "native-base": "^2.13.14"
-  }
+  "dependencies": {}
 }
