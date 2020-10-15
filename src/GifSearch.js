@@ -15,7 +15,7 @@ import {
 
 import Requests from './Requests';
 
-const BASE_URL = 'http://api.giphy.com/v1/gifs/';
+const BASE_URL = 'https://api.giphy.com/v1/gifs/';
 
 class GifSearch extends PureComponent {
 

@@ -21,7 +21,7 @@ export default class Requests {
 
                 }
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status == 0){
-                    reject("No interner")
+                    reject("No internet or request failed")
                 }
 
             }
