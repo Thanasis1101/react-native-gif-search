@@ -47,7 +47,6 @@ export default class App extends React.Component {
           noGifsFoundText={"No Gifs found :("}
           noGifsFoundTextStyle={{fontWeight: 'bold'}}
           textInputProps={{autoFocus: true}}
-          giphyApiProps={{"rating":"pg"}}
         />
         <View style={styles.gifPreview}>
             {this.state.gif_url ?
