@@ -1,5 +1,5 @@
 # react-native-gif-search
-> An easy-to-use, highly customizable react-native package for searching and selecting a gif using the Giphy API.
+> An easy-to-use, highly customizable react-native package for searching and selecting a gif using the Tenor and/or the Giphy API
 
 <p align="center">
   <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="npm downloads" src="https://img.shields.io/npm/dm/react-native-gif-search.svg"/></a>
@@ -10,15 +10,14 @@
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%201.jpg" width="250" title="react-native-gif-searc screenshot 1">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-with-giphy-logo.gif" width="250" title="react-native-gif-search-with-giphy-logo">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-without-giphy-logo.gif" width="250" title="react-native-gif-search-without-giphy-logo">
-  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%202.jpg" width="757" title="react-native-gif-searc screenshot 2">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%202.png" width="757" title="react-native-gif-searc screenshot 2">
 </p>
 
 
-This package allows you to present a searchable list of gifs to the user, from which the user can select the desired gif. In the beginning and when the search term is empty, a list of **trending gifs** is shown. You can use this component inside a chat screen, for posts, comments or wherever else you need. It uses the [Giphy API](https://developers.giphy.com/) so you need to create an account and obtain an API key which is free and easy. [This article](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8) was helpful for creating this package and has instrauctions on how to get an API key.
+This package allows you to present a searchable list of gifs to the user, from which the user can select the desired gif. In the beginning and when the search term is empty, a list of **trending gifs** is shown. You can use this component inside a chat screen, for posts, comments or wherever else you need. The gifs that are displayed in the gifs list are low quality previews, in order to load faster and minimize mobile data usage. The gif that the user selects is given in a higher quality, so that it can be used and displayed properly in the app.
 
-If you wish to **publish your app** and go from development to production you need to upgrade the API key. To do so, you must verify that you have used the Giphy attribution marks (Giphy logos) in your app, by providing screenshots and videos from your app. The verification process can take up to 3 days. The `react-native-gif-search` package can help you with this too, because it has a property for adding dark or white version of the powered by Giphy logo (`developmentMode={false}`) as you can see in the preview above.
+This package uses the [Giphy API](https://developers.giphy.com/docs/api/) so you need to create an account and obtain an API key which is free and easy. [This article](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8) was helpful for creating this package and has instructions on how to get a Giphy API key. The [Tenor API](https://tenor.com/gifapi/documentation#quickstart) has also been added, for which an API key can be obtained [here](https://tenor.com/developer/keyregistration). This means that you can present gifs using the Giphy API, the Tenor API or both.
 
-The gifs that are displayed in the gifs list are low quality previews, in order to load faster and minimize mobile data usage. The gif that the user selects is given in a higher quality, so that it can be used and displayed properly in the app.
 
 ## Installation
 
@@ -38,11 +37,30 @@ implementation 'com.facebook.fresco:animated-gif:2.0.0'
 ### Import
 
 ```
-import {GifSearch, giphyLogo, giphyLogoDark} from 'react-native-gif-search'
+import {
+  GifSearch,
+  poweredByTenorLogoWhite,
+  poweredByTenorLogoGrey,
+  poweredByTenorLogoBlue,
+  viaTenorLogoWhite,
+  viaTenorLogoGrey,
+  viaTenorLogoBlue,
+  poweredByGiphyLogoGrey,
+  poweredByGiphyLogoWhite
+} from 'react-native-gif-search'
 ```
 - **GifSearch**: The gif searching component
-- **giphyLogo**: The white Giphy logo for use in an Image (`<Image source={giphyLogo} />`)
-- **giphyLogoDark**: The grey Giphy logo for use in an Image (`<Image source={giphyLogoDark} />`)
+- **poweredByTenorLogoWhite**: The [white powered by Tenor logo](img/tenor/PB_tenor_logo_white_horizontal.png) for use in an Image
+- **poweredByTenorLogoGrey**: The [grey powered by Tenor logo](img/tenor/PB_tenor_logo_grey_horizontal.png) for use in an Image
+- **poweredByTenorLogoBlue**: The [blue powered by Tenor logo](img/tenor/PB_tenor_logo_blue_horizontal.png) for use in an Image
+- **viaTenorLogoWhite**: The [white via Tenor logo](img/tenor/via_tenor_logo_white.png) for use in an Image
+- **viaTenorLogoGrey**: The [grey via Tenor logo](img/tenor/via_tenor_logo_grey.png) for use in an Image
+- **viaTenorLogoBlue**: The [blue via Tenor logo](img/tenor/via_tenor_logo_blue.png) for use in an Image
+- **poweredByGiphyLogoWhite**: The [white powered by Giphy logo](img/giphy/PoweredBy_200px-Black_HorizText.png) for use in an Image
+- **poweredByGiphyLogoGrey**: The [grey powered by Giphy logo](img/giphy/PoweredBy_200px-White_HorizText.png) for use in an Image
+
+You can import only the logos that you need and use them like this: `<Image source={poweredByTenorLogoGrey} />`
+
 
 ### Minimal example
 
@@ -72,16 +90,15 @@ import {GifSearch, giphyLogo, giphyLogoDark} from 'react-native-gif-search'
   loadingSpinnerColor={'black'}
   placeholderTextColor={'grey'}
   placeholderText={'Search'}
-  darkGiphyLogo={true}
   onGifSelected={(gif_url, gif_object) => {console.log(gif_url); console.log(gif_object)}}
   onGifLongPress={(gif_url, gif_object) => {console.log(gif_url); console.log(gif_object)}}
   visible={this.state.visible}
   onBackPressed={() => {this.setState({visible: false})}}
-  developmentMode={false}
   horizontal={false}
   showScrollBar={false}  
   noGifsFoundText={"No Gifs found :("}
   noGifsFoundTextStyle={{fontWeight: 'bold'}}
+  providerLogo={poweredByGiphyLogoGrey}
   textInputProps={{autoFocus: true}}
   onError={(error) => {console.log(error)}}
 />
@@ -100,9 +117,8 @@ import {GifSearch, giphyLogo, giphyLogoDark} from 'react-native-gif-search'
   textInputStyle={{fontWeight: 'bold', color: 'black'}}
   loadingSpinnerColor={'black'}
   placeholderTextColor={'grey'}
-  darkGiphyLogo={true}
   numColumns={5}
-  developmentMode={false}
+  providerLogo={poweredByGiphyLogoGrey}
   showScrollBar={false}
   noGifsFoundText={"No Gifs found :("}
 />
@@ -120,10 +136,10 @@ You can see a full example project in the [example](example/) folder and more sp
 | --- | --- | --- | --- |
 | `giphyApiKey` | Yes | The Giphy API key you obtained (see step 1 [here](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8)) |  |
 | `onGifSelected` | Yes | Function to be called when user clicked on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). | |
+| `provider` | No | From which provider to load gifs. Can be `"tenor"`, `"giphy"`, `"all"`. | `"all"` |
 | `gifsToLoad` | No | How many gifs to load in the beginning and every time the user reaches the scroll end | `15` |
 | `maxGifsToLoad` | No | On how many gifs to stop loading more gifs | `60` |
-| `developmentMode` | No | Giphy logo appears on top right corner, if set to false (this is required by Giphy when publishing your app) | `true` |
-| `darkGiphyLogo` | No | Used with `developmentMode={false}` shows the gray Giphy logo if set to true, or the white Giphy logo if set to false | `false` |
+| `providerLogo` | No | The logo to appear on top right corner (e.g.`providerLogo={poweredByTenorLogoGrey}`)| |
 | `placeholderText` | No | The text for when there is no search term | `'Search GIF'` |
 | `visible` | No | Can be used for toggling the view for the gif selection (e.g. open on button press) | `true` |
 | `onBackPressed` | No | Function for when the device's back button is pressed. Used with `visible={this.state.visible}` for closing the gif selection when back button is pressed. If not set then default action is taken. If set then default action is ignored while gif selection is visible. Recommended usage: `onBackPressed={() => {this.setState({visible: false})}}` | |
@@ -142,8 +158,32 @@ You can see a full example project in the [example](example/) folder and more sp
 | `textInputProps` | No | Additional properties for the TextInput with the search term (e.g. `textInputProps={{autoFocus: true}}`) | |
 | `noGifsFoundText` | No | Text to display when no gifs are found | `'No GIFS found'` |
 | `noGifsFoundTextStyle` | No | The style of the text that is displayed when no gifs are found | |
+| `tenorApiProps` | No | For adding and/or overwriting the default properties of the tenor API request (e.g. `tenorApiProps={{"locale":"en_US"}}`). See all possible properties [here](https://tenor.com/gifapi/documentation#endpoints). | |
+| `giphyApiProps` | No | For adding and/or overwriting the default properties of the giphy API request (e.g. `giphyApiProps={{"lang":"en"}}`). See all possible properties [here](https://developers.giphy.com/docs/api/endpoint). | |
+
+## Attribution
+If you wish to **publish your app** and go from development to production you need to follow some steps for every API that you use.
+### Tenor
+
+All content retrieved from Tenor must be properly attributed by including **one of the three following** options:
+- Powered By Tenor - to be used in the GIF browsing experience
+- Search Tenor - to be used as the placeholder text in the search bar
+- Via Tenor - to be used in the footer of a shared GIF
+
+Source: https://tenor.com/gifapi/documentation#attribution
+
+### Giphy
+For the Giphy API you need to upgrade the Giphy API key. To do so, you must verify that you have used the Giphy attribution marks (Giphy logos) in your app, by providing screenshots and videos from your app. The verification process can take up to 3 days. The `react-native-gif-search` package can help you with this too, because it has a property for adding a logo on top right corner (see `providerLogo` in [Properties](#properties) section) or you can include a Giphy logo near your shared GIF using the logos you can import from this package (see [Import](#import) section).
+
 
 ## Version History
+
+- v1.1.0
+  - **Added support for Tenor API**
+  - **New properties**: `provider`, `providerLogo`, `tenorApiProps`, `giphyApiProps` (see [Properties](#properties) section for explanation).
+  - **Removed properties**: `developmentMode`, `darkGiphyLogo`. Anyone who used `developmentMode={false}` with `darkGiphyLogo={true}` should replace these with `providerLogo={poweredByGiphyLogoGrey}` and import `poweredByGiphyLogoGrey` (see [Import](#import) section) in order to have the same results (use `providerLogo={poweredByGiphyLogoWhite}` in case you had `darkGiphyLogo={false}`). Notice that if you intend to use only Giphy API you must add the property `provider={"giphy"}`.
+  - **Fixes**:
+    - After typing the search term, the gifs of the final search term will be displayed. Previously there were cases where the user would type "test" and the gifs for "tes" would appear.
 
 - v1.0.10
   - **giphyLogo, giphyLogoDark**: Now you can also import the giphyLogo and the giphyLogoDark from the module and use it as a `source` of an `Image` component (like in [example code](/example/App.js)).
