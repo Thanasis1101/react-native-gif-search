@@ -67,7 +67,8 @@ You can import only the logos that you need and use them like this: `<Image sour
   
 ```
 <GifSearch
-  giphyApiKey={YOUR_GIPHY_API_KEY}
+  tenorApiKey={YOUR_TENOR_API_KEY}
+  giphyApiKey={YOUR_GIPHY_API_KEY}  
   onGifSelected={(gif_url)=>{alert(gif_url)}}
 />
 ```
@@ -80,7 +81,7 @@ You can import only the logos that you need and use them like this: `<Image sour
 ### Bigger example
 ```
 <GifSearch
-  giphyApiKey={YOUR_GIPHY_API_KEY}
+  tenorApiKey={YOUR_TENOR_API_KEY}
   gifsToLoad={10}
   maxGifsToLoad={25}
   style={{backgroundColor: 'white', borderWidth: 3, borderRadius: 10}}
@@ -98,14 +99,15 @@ You can import only the logos that you need and use them like this: `<Image sour
   showScrollBar={false}  
   noGifsFoundText={"No Gifs found :("}
   noGifsFoundTextStyle={{fontWeight: 'bold'}}
-  providerLogo={poweredByGiphyLogoGrey}
+  provider={"tenor"}
+  providerLogo={poweredByTenorLogoGrey}
   textInputProps={{autoFocus: true}}
   onError={(error) => {console.log(error)}}
 />
 ```
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%204.jpg" width="250" title="react-native-gif-searc screenshot 4">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%204.png" width="250" title="react-native-gif-searc screenshot 4">
 </p>
 
 ### Multiple columns example
@@ -118,6 +120,7 @@ You can import only the logos that you need and use them like this: `<Image sour
   loadingSpinnerColor={'black'}
   placeholderTextColor={'grey'}
   numColumns={5}
+  provider={"giphy"}
   providerLogo={poweredByGiphyLogoGrey}
   showScrollBar={false}
   noGifsFoundText={"No Gifs found :("}
@@ -134,7 +137,8 @@ You can see a full example project in the [example](example/) folder and more sp
 
 | Property name | Required | Explanation | Default |
 | --- | --- | --- | --- |
-| `giphyApiKey` | Yes | The Giphy API key you obtained (see step 1 [here](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8)) |  |
+| `giphyApiKey` | Yes, except if `provider={"tenor"}` | The Giphy API key you obtained (see step 1 [here](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8)) |  |
+| `tenorApiKey` | No | The Tenor API key you obtained from [here](https://tenor.com/developer/keyregistration) |  |
 | `onGifSelected` | Yes | Function to be called when user clicked on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). | |
 | `provider` | No | From which provider to load gifs. Can be `"tenor"`, `"giphy"`, `"all"`. | `"all"` |
 | `gifsToLoad` | No | How many gifs to load in the beginning and every time the user reaches the scroll end | `15` |
@@ -180,7 +184,7 @@ For the Giphy API you need to upgrade the Giphy API key. To do so, you must veri
 
 - v1.1.0
   - **Added support for Tenor API**
-  - **New properties**: `provider`, `providerLogo`, `tenorApiProps`, `giphyApiProps` (see [Properties](#properties) section for explanation).
+  - **New properties**: `tenorApiKey`, `provider`, `providerLogo`, `tenorApiProps`, `giphyApiProps` (see [Properties](#properties) section for explanation).
   - **Removed properties**: `developmentMode`, `darkGiphyLogo`. Anyone who used `developmentMode={false}` with `darkGiphyLogo={true}` should replace these with `providerLogo={poweredByGiphyLogoGrey}` and import `poweredByGiphyLogoGrey` (see [Import](#import) section) in order to have the same results (use `providerLogo={poweredByGiphyLogoWhite}` in case you had `darkGiphyLogo={false}`). Notice that if you intend to use only Giphy API you must add the property `provider={"giphy"}`.
   - **Fixes**:
     - After typing the search term, the gifs of the final search term will be displayed. Previously there were cases where the user would type "test" and the gifs for "tes" would appear.
