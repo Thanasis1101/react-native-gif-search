@@ -7,7 +7,7 @@ import {
     Image,
 } from 'react-native';
 
-import {GifSearch, giphyLogo, giphyLogoDark} from 'react-native-gif-search';
+import {GifSearch, viaTenorLogoGrey, poweredByGiphyLogoGrey} from 'react-native-gif-search';
 
 const DEVELOPMENT_MODE = false;
 
@@ -22,7 +22,7 @@ export default class App extends React.Component {
   }
 
   onGifSelected = (gif_url, gif_object) => {
-      this.setState({gif_url})
+      this.setState({gif_url: gif_url, gif_provider: gif_object.provider})
   }
 
   render() {
@@ -30,23 +30,24 @@ export default class App extends React.Component {
       <ScrollView style={styles.container} keyboardShouldPersistTaps={"handled"}>
         <GifSearch
           giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
+          provider={"all"}
           gifsToLoad={10}
           maxGifsToLoad={25}
           style={{backgroundColor: '#9fd4ab'}}
-          textInputStyle={{fontWeight: 'bold', color: 'black'}}
+          textInputStyle={{color: 'black'}}
           gifStyle={{height:160}}
           loadingSpinnerColor={'black'}
           placeholderTextColor={'grey'}
-          darkGiphyLogo={true}
+          placeholderText={'Search Tenor and Giphy'}
           onGifSelected={this.onGifSelected}
           visible={true}
-          developmentMode={DEVELOPMENT_MODE}
           horizontal={true}
           showScrollBar={false}
           onError={(error) => {console.log(error)}}
           noGifsFoundText={"No Gifs found :("}
           noGifsFoundTextStyle={{fontWeight: 'bold'}}
           textInputProps={{autoFocus: true}}
+          giphyApiProps={{"rating":"pg"}}
         />
         <View style={styles.gifPreview}>
             {this.state.gif_url ?
@@ -61,7 +62,7 @@ export default class App extends React.Component {
                     {!DEVELOPMENT_MODE ?
                     (
                       <Image 
-                        source={giphyLogoDark} 
+                        source={this.state.gif_provider == "tenor" ? (viaTenorLogoGrey) : (poweredByGiphyLogoGrey)} 
                         style={styles.giphyLogo}
                       />
                     )
@@ -97,16 +98,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   gifContainer: {
-    width: 210,
-    height: 215,
+    width: 280,
+    height: 280,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
     borderWidth: 2,
-    marginTop: 8
+    marginVertical: 10
   },
   gif: {
-    width: 190, height: 160,
+    width: 250, height: 220,
     borderRadius: 25,
     resizeMode: 'contain',
   },

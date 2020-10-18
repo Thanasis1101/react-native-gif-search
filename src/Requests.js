@@ -1,11 +1,10 @@
 export default class Requests {
 
-
     static fetch(method, url, params) {
 
-        var xhr = new XMLHttpRequest
-
         var promise = new Promise((resolve, reject) => {
+            
+            var xhr = new XMLHttpRequest
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status > 0) { // xhr.status == 0 => Request aborted, no internet or no server

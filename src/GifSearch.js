@@ -15,7 +15,19 @@ import {
 
 import Requests from './Requests';
 
-const BASE_URL = 'https://api.giphy.com/v1/gifs/';
+const GIPHY_BASE_URL = 'https://api.giphy.com/v1/gifs/';
+const TENOR_BASE_URL = 'https://api.tenor.com/v1/';
+
+const providers = {
+  TENOR: "tenor",
+  GIPHY: "giphy",
+  ALL: "all",
+}
+
+const endpoints = {
+  TRENDING: "trending",
+  SEARCH: "search",
+}
 
 class GifSearch extends PureComponent {
 
@@ -25,12 +37,13 @@ class GifSearch extends PureComponent {
       this.state = {
         gifs: [],
         offset: 0,
-        term: "",
+        search_term: "",
         visible: this.props.visible != null ? this.props.visible : true,
         scrollOffset: 0,
         fetching: false,
         gifsOver: false,
         noGifsFound: false,
+        next: 0,
       }
 
       this.gifsToLoad = 15;
@@ -49,13 +62,9 @@ class GifSearch extends PureComponent {
       if (props.giphyApiKey != null) {
           this.giphyApiKey = props.giphyApiKey;
       }
-      this.darkGiphyLogo = false;
-      if (props.darkGiphyLogo != null) {
-          this.darkGiphyLogo = props.darkGiphyLogo;
-      }
-      this.developmentMode = true;
-      if (props.developmentMode != null) {
-          this.developmentMode = props.developmentMode;
+      this.tenorApiKey = '';
+      if (props.tenorApiKey != null) {
+          this.tenorApiKey = props.tenorApiKey;
       }
       this.loadingSpinnerColor = 'white';
       if (props.loadingSpinnerColor != null) {
@@ -82,79 +91,191 @@ class GifSearch extends PureComponent {
           this.numColumns = props.numColumns;
           this.horizontal = false;
           this.state.gifSize = Dimensions.get('window').width / this.numColumns - 20;
+      }      
+      this.provider = providers.ALL;
+      if (props.provider != null) {
+          if (props.provider == providers.TENOR || props.provider == providers.GIPHY) {
+              this.provider = props.provider
+          }
+      }      
+      this.providerLogo = null;
+      if (props.providerLogo != null) {
+          this.providerLogo = props.providerLogo
       }
+
+  }
+
+  refreshGifs = () => {
+      this.setState({fetching: true, gifsOver: false, noGifsFound: false})
+      if (this.state.search_term == ""){
+          this.showGifs(endpoints.TRENDING)
+      } else {
+          this.showGifs(endpoints.SEARCH)
+      }
+  }
+
+  handleRequestResponses = (tenorResponseJSON, giphyResponseJSON) => {
+      if (tenorResponseJSON == null) {tenorResponseJSON = {results:[]}}
+      if (giphyResponseJSON == null) {giphyResponseJSON = {data:[]}}
+
+      if (tenorResponseJSON.results.length > 0 || giphyResponseJSON.data.length > 0) {
+
+          var tenor_gifs = this.addProviderInfo(tenorResponseJSON.results, providers.TENOR)
+          var giphy_gifs = this.addProviderInfo(giphyResponseJSON.data, providers.GIPHY)
+          var all_gifs = this.joinAndRemoveDuplicateIds(this.state.gifs, this.interleaveGifArrays(tenor_gifs, giphy_gifs))
+          this.setState({ 
+              gifs: all_gifs,
+              offset: this.state.offset + this.gifsToLoad,
+              next: tenorResponseJSON.next,
+              fetching: false
+          })
+      } else {
+          this.setState({fetching: false, gifsOver: true, noGifsFound: this.state.gifs.length == 0})
+      }
+  }
+
+  handleRequestError = (error) => {
+      this.setState({fetching: false, gifsOver: true})
+      if (this.props.onError) {
+          this.props.onError(error)
+      }
+  }
+
+
+  showGifs = (endpoint) => {
+
+      const search_term = this.state.search_term;
+      if (this.provider == providers.ALL) {
+
+          this.fetchTenorGifs(endpoint).then((tenorResponseJSON) => {              
+              this.fetchGiphyGifs(endpoint).then((giphyResponseJSON) => {
+                  if (search_term == this.state.search_term) {
+                      this.handleRequestResponses(tenorResponseJSON, giphyResponseJSON)
+                  }
+              }).catch(this.handleRequestError)
+          }).catch(this.handleRequestError)
+        
+      } else if (this.provider == providers.TENOR) {
+
+          this.fetchTenorGifs(endpoint).then((tenorResponseJSON) => { 
+              if (search_term == this.state.search_term) {
+                  this.handleRequestResponses(tenorResponseJSON, null)
+              }
+          }).catch(this.handleRequestError)
+
+      } else if (this.provider == providers.GIPHY) {
+
+          this.fetchGiphyGifs(endpoint).then((giphyResponseJSON) => { 
+              if (search_term == this.state.search_term) {
+                  this.handleRequestResponses(null, giphyResponseJSON)
+              }
+          }).catch(this.handleRequestError)
+
+      }
+  }
+
+
+  fetchTenorGifs = (endpoint) => {
+      var limit = Math.min(this.gifsToLoad, this.maxGifsToLoad - this.state.offset)
+      if (this.provider == providers.ALL) { 
+          limit = Math.ceil(limit/2)
+      }
+
+      if (endpoint == endpoints.TRENDING) {
+
+          return Requests.fetch("GET", TENOR_BASE_URL + "trending", {
+              "key": this.tenorApiKey,
+              "limit": limit,
+              "locale": "el_GR",
+              "media_filter": "basic",
+              "contentfilter": "medium",
+              ...this.state.next != 0 && {"pos": this.state.next},
+              ...this.props.tenorApiProps,
+          })
+
+      } else if (endpoint == endpoints.SEARCH) {
+
+          return Requests.fetch("GET", TENOR_BASE_URL + "search", {
+              "key": this.tenorApiKey,
+              "q": this.state.search_term,
+              "limit": limit,
+              "locale": "el_GR",
+              "media_filter": "basic",
+              "contentfilter": "high",
+              ...this.state.next != 0 && {"pos": this.state.next},
+              ...this.props.tenorApiProps,
+          })
+
+      }
+  }
+
+  fetchGiphyGifs = (endpoint) => {
+      var limit = Math.min(this.gifsToLoad, this.maxGifsToLoad - this.state.offset)
+      if (this.provider == providers.ALL) { 
+          limit = Math.floor(limit/2)
+      }
+    
+      if (endpoint == endpoints.TRENDING) {
+
+          return Requests.fetch("GET", GIPHY_BASE_URL + "trending", {
+              "api_key": this.giphyApiKey,
+              "limit": limit,
+              "rating": "pg",
+              "offset": this.state.offset,
+              ...this.props.giphyApiProps,
+          })
+
+      } else if (endpoint == endpoints.SEARCH) {
+
+          return Requests.fetch("GET", GIPHY_BASE_URL + "search", {
+              "api_key": this.giphyApiKey,
+              "q": this.state.search_term,
+              "limit": limit,
+              "rating": "pg",
+              "offset": this.state.offset,
+              ...this.props.giphyApiProps,
+          })
+
+      }
+  }
+
+  joinAndRemoveDuplicateIds = (old_array, new_array) => {
+      var new_array_unique = new_array.filter((obj1, index1) => {return !new_array.some((obj2, index2) => obj1.id === obj2.id && index1 != index2)}); // remove duplicates
+      new_array_unique = new_array_unique.filter(o1 => {return !old_array.some(o2 => o1.id === o2.id)}); // remove duplicates with previous gifs
+      return [...old_array, ...new_array_unique]
+  }
+
+  addProviderInfo = (gifs_array, provider) => {
+      gifs_array.forEach((element) => {
+          element.id = provider + " " + element.id;
+          element.provider = provider
+      });
+      return gifs_array
+  }
+
+  interleaveGifArrays = (tenor_array, giphy_array) => {
+      if (tenor_array.length == 0) {return giphy_array}
+      if (giphy_array.length == 0) {return tenor_array}
+
+      var result = [];
+      var i, l = Math.min(tenor_array.length, giphy_array.length);
       
-
-  }
-
-  fetchGifs = () => {
-      if (this.state.fetching){
-        return
+      for (i = 0; i < l; i++) {
+          result.push(tenor_array[i], giphy_array[i]);
       }
-      this.setState({fetching: true, gifsOver: false})
-      if (this.state.term == ""){
-          this.fetchTrendingGifs()
-          return
-      }
-      this.fetchGifsByTerm()
+      result.push(...tenor_array.slice(l), ...giphy_array.slice(l));
+      return result
   }
 
-  fetchGifsByTerm = () => {
-      Requests.fetch("GET", BASE_URL + "search", {
-          "api_key": this.giphyApiKey,
-          "q": this.state.term,
-          "limit": Math.min(this.gifsToLoad, this.maxGifsToLoad - this.state.offset),
-          "offset": this.state.offset
-      }). then((responseJSON) => {
-          if (responseJSON.data.length > 0){
-              let responseUnique = responseJSON.data.filter((obj1, index1) => {return !responseJSON.data.some((obj2, index2) => obj1.id === obj2.id && index1 != index2)}); // remove duplicates
-              let newGifsUnique = responseUnique.filter(o1 => {return !this.state.gifs.some(o2 => o1.id === o2.id)}); // remove duplicates with previous gifs
-              this.setState({ gifs: [...this.state.gifs, ...newGifsUnique],
-                              offset: this.state.offset + this.gifsToLoad,
-                              fetching: false})
-          } else {
-              this.setState({fetching: false, gifsOver: true, noGifsFound: this.state.gifs.length == 0})
-          }
-      }).catch((error) => {
-        this.setState({fetching: false, gifsOver: true})
-        if (this.props.onError) {
-            this.props.onError(error)
-        }
-    })     
-  }
-
-  fetchTrendingGifs = () => {
-      Requests.fetch("GET", BASE_URL + "trending", {
-          "api_key": this.giphyApiKey,
-          "limit": Math.min(this.gifsToLoad, this.maxGifsToLoad - this.state.offset),
-          "offset": this.state.offset
-      }). then((responseJSON) => {
-          if (responseJSON.data.length > 0){
-              let responseUnique = responseJSON.data.filter((obj1, index1) => {return !responseJSON.data.some((obj2, index2) => obj1.id === obj2.id && index1 != index2)}); // remove duplicates
-              let newGifsUnique = responseUnique.filter(o1 => {return !this.state.gifs.some(o2 => o1.id === o2.id)}); // remove duplicates with previous gifs
-              this.setState({ gifs: [...this.state.gifs, ...newGifsUnique],
-                              offset: this.state.offset + this.gifsToLoad,
-                              fetching: false})
-          } else {
-              this.setState({fetching: false, gifsOver: true, noGifsFound: this.state.gifs.length == 0})
-          }       
-      }).catch((error) => {
-          this.setState({fetching: false, gifsOver: true})
-          if (this.props.onError) {
-              this.props.onError(error)
-          }
-      })
-  }
-
-  onSearchTermChanged = (new_term) => {
-      this.setState({term: new_term, offset: 0, gifs: []}, () => {
-          this.fetchGifs()
+  onSearchTermChanged = (new_search_term) => {
+      this.setState({search_term: new_search_term, offset: 0, gifs: [], tenorGifs: [], giphyGifs: [], next: 0}, () => {
+          this.refreshGifs()
       })
   }
 
   loadMoreGifs = () => {
       if (this.state.offset < this.maxGifsToLoad && !this.state.gifsOver) {
-          this.fetchGifs()
+          this.refreshGifs()
       }
   }
 
@@ -165,7 +286,7 @@ class GifSearch extends PureComponent {
   }
 
   componentDidMount() {
-      this.fetchGifs()
+      this.refreshGifs()
       if (this.props.onBackPressed != null){
           BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
       }
@@ -193,14 +314,14 @@ class GifSearch extends PureComponent {
               placeholder={this.placeholderText}
               placeholderTextColor={this.placeholderTextColor}
               autoCapitalize='none'
-              style={[this.styles.textInput, {width: this.developmentMode ? '100%' : '60%'}, this.props.textInputStyle]}
+              style={[this.styles.textInput, {width: this.providerLogo == null ? '100%' : '60%'}, this.props.textInputStyle]}
               onChangeText={this.onSearchTermChanged}
               {...this.props.textInputProps}
             />
-            {!this.developmentMode ?
+            {this.providerLogo != null ?
             (
                 <Image 
-                  source={this.darkGiphyLogo ? (require('../img/PoweredBy_200px-White_HorizText.png')) : (require('../img/PoweredBy_200px-Black_HorizText.png'))} 
+                  source={this.providerLogo} 
                   style={{width: '40%', height: 50, resizeMode: 'contain'}}
                 />
             )
@@ -222,20 +343,35 @@ class GifSearch extends PureComponent {
             showsVerticalScrollIndicator={this.showScrollBar}
             {...this.props.gifListProps}
             renderItem={({item}) => {
-              var aspectRatio = null;
-              if (parseInt(item.images.preview_gif.height)) {
-                  aspectRatio = parseInt(item.images.preview_gif.width)/parseInt(item.images.preview_gif.height)
+
+              var aspect_ratio = null;
+              var gif_preview = null;
+              var gif_better_quality = null;
+
+              if (item.provider == providers.TENOR) {
+                gif_preview = item.media[0].nanogif.url
+                gif_better_quality = item.media[0].tinygif.url
+                if (parseInt(item.media[0].tinygif.dims[1])) {
+                    aspect_ratio = parseInt(item.media[0].tinygif.dims[0])/parseInt(item.media[0].tinygif.dims[1])
+                }
+              } else {
+                gif_preview = item.images.preview_gif.url
+                gif_better_quality = item.images.downsized.url
+                if (parseInt(item.images.preview_gif.height)) {
+                    aspect_ratio = parseInt(item.images.preview_gif.width)/parseInt(item.images.preview_gif.height)
+                }
               }
+
               return (
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  onPress={() => {this.props.onGifSelected(item.images.downsized.url, item); Keyboard.dismiss()}}
-                  onLongPress={() => {if (this.props.onGifLongPress) {this.props.onGifLongPress(item.images.downsized.url, item)}}}>
+                  onPress={() => {this.props.onGifSelected(gif_better_quality, item); Keyboard.dismiss()}}
+                  onLongPress={() => {if (this.props.onGifLongPress) {this.props.onGifLongPress(gif_better_quality, item)}}}>
                     
                   <Image
                     resizeMode={'cover'}
-                    style={[this.styles.image, this.numColumns > 1 ? {width:this.state.gifSize, minHeight: this.state.gifSize, maxHeight:this.state.gifSize} : {aspectRatio: aspectRatio ? aspectRatio : 4/3, height: 150}, this.props.gifStyle]}
-                    source={{uri: item.images.preview_gif.url}}
+                    style={[this.styles.image, this.numColumns > 1 ? {width:this.state.gifSize, minHeight: this.state.gifSize, maxHeight:this.state.gifSize} : {aspectRatio: aspect_ratio ? aspect_ratio : 4/3, height: 150}, this.props.gifStyle]}
+                    source={{uri: gif_preview}}
                   />
                 </TouchableOpacity>
               )
