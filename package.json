@@ -18,6 +18,12 @@
     "gif-search",
     "gif-picker",
     "gif-selector",
+    "tenor",
+    "giphy",
+    "tenor-api",
+    "giphy-api",
+    "tenor-gifs",
+    "giphy-gifs",
     "npm"
   ],
   "author": "Thanasis1101",
