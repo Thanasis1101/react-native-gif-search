@@ -140,7 +140,7 @@ You can see a full example project in the [example](example/) folder and more sp
 | `onGifSelected` | Yes | Function to be called when user clicked on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). | |
 | `giphyApiKey` | Yes, except if `provider={"tenor"}` | The Giphy API key you obtained (see step 1 [here](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8)) |  |
 | `tenorApiKey` | No | The Tenor API key you obtained from [here](https://tenor.com/developer/keyregistration) |  |
-| `provider` | No | From which provider to load gifs. Can be `"tenor"`, `"giphy"`, `"all"`. | `"all"` |
+| `provider` | No | From which provider to load gifs. Can be `"tenor"`, `"giphy"` or `"all"`. | `"all"` |
 | `gifsToLoad` | No | How many gifs to load in the beginning and every time the user reaches the scroll end | `15` |
 | `maxGifsToLoad` | No | On how many gifs to stop loading more gifs | `60` |
 | `providerLogo` | No | The logo to appear on top right corner (e.g.`providerLogo={poweredByTenorLogoGrey}`)| |
