@@ -137,22 +137,25 @@ You can see a full example project in the [example](example/) folder and more sp
 
 | Property name | Required | Explanation | Default |
 | --- | --- | --- | --- |
-| `onGifSelected` | Yes | Function to be called when user clicked on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). | |
+| `onGifSelected` | Yes | Function to be called when user clicks on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). The Giphy object (second parameter) also contains the provider (`"giphy"`, `"tenor"`) and the type (`gif`, `sticker`). See a usage example of this in `onGifSelected` function of [App.js](example/App.js) | |
 | `giphyApiKey` | Yes, except if `provider={"tenor"}` | The Giphy API key you obtained (see step 1 [here](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8)) |  |
 | `tenorApiKey` | No | The Tenor API key you obtained from [here](https://tenor.com/developer/keyregistration) |  |
 | `provider` | No | From which provider to load gifs. Can be `"tenor"`, `"giphy"` or `"all"`. | `"all"` |
+| `gifType` | No | What type of gifs to show. Can be `"gif"`, `"sticker"` or `"all"`. In case of `"sticker"` only tha GIPHY provider is used regardless the `provider` property, because only GIPHY supports stickers. In case of `"all"` there are two buttons to switch between gifs and stickers. | `"gif"` |
 | `gifsToLoad` | No | How many gifs to load in the beginning and every time the user reaches the scroll end | `15` |
 | `maxGifsToLoad` | No | On how many gifs to stop loading more gifs | `60` |
 | `providerLogo` | No | The logo to appear on top right corner (e.g.`providerLogo={poweredByTenorLogoGrey}`)| |
-| `placeholderText` | No | The text for when there is no search term | `'Search GIF'` |
+| `placeholderText` | No | The text for when there is no search term and `gifType` is set to `"gif"`. If `gifType` is set to `"all"` then this is the placeholder while gifs button is selected. | `'Search GIF'` |
+| `stickersPlaceholderText` | No | The text for when there is no search term and `gifType` is set to `"sticker"`. If `gifType` is set to `"all"` then this is the placeholder while stickers button is selected. | `'Search Stickers'` |
 | `visible` | No | Can be used for toggling the view for the gif selection (e.g. open on button press) | `true` |
+| `onGifLongPress` | No | Function to be called when user long presses on a gif. The parameters are the same with `onGifSelected`. See a usage example of this in `onGifLongPress` function of [App.js](example/App.js) |  |
 | `onBackPressed` | No | Function for when the device's back button is pressed. Used with `visible={this.state.visible}` for closing the gif selection when back button is pressed. If not set then default action is taken. If set then default action is ignored while gif selection is visible. Recommended usage: `onBackPressed={() => {this.setState({visible: false})}}` | |
 | `onError` | No | Function to be called when an error occures, e.g. no internet connection | |
 | `horizontal` | No | Set the orientation of the list with the gifs. Horizontal if true, vertical if false  | `true` |
 | `style` | No | The component's style property (e.g. `style={{backgroundColor: 'yellow', borderRadius: 5}}`) | |
-| `textInputStyle` | No | The style of the search text input | |
+| `textInputStyle` | No | Additional style of the search text input | |
 | `gifStyle` | No | The style of the gif inside the list | |
-| `gifListStyle` | No | The style for the FlatList used for displaying the gifs | |
+| `gifListStyle` | No | Additional style for the FlatList used for displaying the gifs | |
 | `loadingSpinnerColor` | No | The color of the loading spinner | `'white'` |
 | `placeholderTextColor` | No | The color of the placeholder for the search text input | `'grey'` |
 | `showScrollBar` | No | Whether to show or not the scroll bar / scroll indicator | `true` |
@@ -161,9 +164,20 @@ You can see a full example project in the [example](example/) folder and more sp
 | `gifListProps` | No | Additional properties for the FlatList with the gifs | |
 | `textInputProps` | No | Additional properties for the TextInput with the search term (e.g. `textInputProps={{autoFocus: true}}`) | |
 | `noGifsFoundText` | No | Text to display when no gifs are found | `'No GIFS found'` |
-| `noGifsFoundTextStyle` | No | The style of the text that is displayed when no gifs are found | |
+| `noGifsFoundTextStyle` | No | Additional style of the text that is displayed when no gifs are found | |
 | `tenorApiProps` | No | For adding and/or overwriting the default properties of the tenor API request (e.g. `tenorApiProps={{"locale":"en_US"}}`). See all possible properties [here](https://tenor.com/gifapi/documentation#endpoints). | |
 | `giphyApiProps` | No | For adding and/or overwriting the default properties of the giphy API request (e.g. `giphyApiProps={{"lang":"en"}}`). See all possible properties [here](https://developers.giphy.com/docs/api/endpoint). | |
+| `showGifsButtonText` | No | The text for the button that shows gifs when `gifType` is `"all"`. | `"Gifs"` |
+| `showGifsButtonTextStyle` | No | Additional style for the text of the button that shows gifs when `gifType` is `"all"`. | |
+| `showGifsButtonSelectedTextStyle` | No | Additional style for the text of the button that shows gifs when the button is selected and `gifType` is `"all"`. | |
+| `showGifsButtonStyle` | No | Additional style for the button that shows gifs when `gifType` is `"all"`. | |
+| `showGifsButtonSelectedStyle` | Additional style for the button that shows gifs when it is selected and `gifType` is `"all"`. | aaa | |
+| `showStickersButtonText` | No | The text for the button that shows stickers when `gifType` is `"all"`. | `"Stickers"` |
+| `showStickersButtonTextStyle` | No | Additional style for the text of the button that shows stickers when `gifType` is `"all"`. | |
+| `showStickersButtonSelectedTextStyle` | No | Additional style for the text of the button that shows stickers when the button is selected and `gifType` is `"all"`. | |
+| `showStickersButtonStyle` | No | Additional style for the button that shows stickers when `gifType` is `"all"`. | |
+| `showStickersButtonSelectedStyle` | No | Additional style for the button that shows stickers when it is selected and `gifType` is `"all"`. | |
+
 
 ## Attribution
 If you wish to **publish your app** and go from development to production you need to follow some steps for every API that you use.
@@ -181,6 +195,11 @@ For the Giphy API you need to upgrade the Giphy API key. To do so, you must veri
 
 
 ## Version History
+
+- v1.1.2
+  - **Added support for Stickers from GIPHY API**
+  - **Added callback function for when user long presses a gif**
+  - **New properties**: `gifType`, `stickersPlaceholderText`, `onGifLongPress`, `showGifsButtonText`, `showGifsButtonTextStyle`, `showGifsButtonSelectedTextStyle`, `showGifsButtonStyle`, `showGifsButtonSelectedStyle`, `showStickersButtonText`, `showStickersButtonTextStyle`, `showStickersButtonSelectedTextStyle`, `showStickersButtonStyle`, `showStickersButtonSelectedStyle` (see [Properties](#properties) section for explanation).
 
 - v1.1.0
   - **Added support for Tenor API**
