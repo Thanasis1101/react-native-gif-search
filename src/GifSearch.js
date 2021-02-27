@@ -10,17 +10,23 @@ import {
   ActivityIndicator,
   Dimensions,
   Keyboard,
-  Text
+  Text,
 } from 'react-native';
 
 import Requests from './Requests';
 
-const GIPHY_BASE_URL = 'https://api.giphy.com/v1/gifs/';
+const GIPHY_BASE_URL = 'https://api.giphy.com/v1/';
 const TENOR_BASE_URL = 'https://api.tenor.com/v1/';
 
 const providers = {
   TENOR: "tenor",
   GIPHY: "giphy",
+  ALL: "all",
+}
+
+const gif_types = {
+  GIF: "gif",
+  STICKER: "sticker",
   ALL: "all",
 }
 
@@ -33,18 +39,6 @@ class GifSearch extends PureComponent {
 
 	constructor(props) {
       super(props);
-      
-      this.state = {
-        gifs: [],
-        offset: 0,
-        search_term: "",
-        visible: this.props.visible != null ? this.props.visible : true,
-        scrollOffset: 0,
-        fetching: false,
-        gifsOver: false,
-        noGifsFound: false,
-        next: 0,
-      }
 
       this.gifsToLoad = 15;
       if (props.gifsToLoad != null) {
@@ -74,9 +68,13 @@ class GifSearch extends PureComponent {
       if (props.showScrollBar != null) {
           this.showScrollBar = props.showScrollBar;
       }
-      this.placeholderText = "Search GIF";
+      this.placeholderText = "Search GIFs";
       if (props.placeholderText != null) {
           this.placeholderText = props.placeholderText;
+      }
+      this.stickersPlaceholderText = "Search Stickers";
+      if (props.stickersPlaceholderText != null) {
+          this.stickersPlaceholderText = props.stickersPlaceholderText;
       }
       this.noGifsFoundText = "No GIFS found";
       if (props.noGifsFoundText != null) {
@@ -91,16 +89,53 @@ class GifSearch extends PureComponent {
           this.numColumns = props.numColumns;
           this.horizontal = false;
           this.state.gifSize = Dimensions.get('window').width / this.numColumns - 20;
-      }      
+      }
       this.provider = providers.ALL;
       if (props.provider != null) {
           if (props.provider == providers.TENOR || props.provider == providers.GIPHY) {
-              this.provider = props.provider
+              this.provider = props.provider;
           }
       }      
       this.providerLogo = null;
       if (props.providerLogo != null) {
-          this.providerLogo = props.providerLogo
+          this.providerLogo = props.providerLogo;
+      }
+      this.gifType = gif_types.GIF;
+      var currentGifType = gif_types.GIF;
+      if (props.gifType != null) {
+          if (props.gifType == gif_types.STICKER) {
+              this.gifType = props.gifType
+              currentGifType = props.gifType;
+          } 
+          if (props.gifType == gif_types.ALL) {
+            this.gifType = props.gifType
+          }
+      }
+      this.showGifsButtonText = "Gifs";
+      if (props.showGifsButtonText != null) {
+          this.showGifsButtonText = props.showGifsButtonText;
+      } 
+      this.showStickersButtonText = "Stickers";
+      if (props.showStickersButtonText != null) {
+          this.showStickersButtonText = props.showStickersButtonText;
+      }
+
+      if (currentGifType == gif_types.STICKER) {
+          this.provider = providers.GIPHY
+      }
+            
+      this.state = {
+        gifs: [],
+        offset: 0,
+        search_term: "",
+        visible: props.visible != null ? props.visible : true,
+        currentGifType: currentGifType,
+        currentProvider: this.provider,
+        scrollOffset: 0,
+        fetching: false,
+        gifsOver: false,
+        noGifsFound: false,
+        next: 0,
       }
 
   }
@@ -120,8 +155,8 @@ class GifSearch extends PureComponent {
 
       if (tenorResponseJSON.results.length > 0 || giphyResponseJSON.data.length > 0) {
 
-          var tenor_gifs = this.addProviderInfo(tenorResponseJSON.results, providers.TENOR)
-          var giphy_gifs = this.addProviderInfo(giphyResponseJSON.data, providers.GIPHY)
+          var tenor_gifs = this.addProviderAndTypeInfo(tenorResponseJSON.results, providers.TENOR)
+          var giphy_gifs = this.addProviderAndTypeInfo(giphyResponseJSON.data, providers.GIPHY)
           var all_gifs = this.joinAndRemoveDuplicateIds(this.state.gifs, this.interleaveGifArrays(tenor_gifs, giphy_gifs))
           this.setState({ 
               gifs: all_gifs,
@@ -145,7 +180,7 @@ class GifSearch extends PureComponent {
   showGifs = (endpoint) => {
 
       const search_term = this.state.search_term;
-      if (this.provider == providers.ALL) {
+      if (this.state.currentProvider == providers.ALL) {
 
           this.fetchTenorGifs(endpoint).then((tenorResponseJSON) => {              
               this.fetchGiphyGifs(endpoint).then((giphyResponseJSON) => {
@@ -155,7 +190,7 @@ class GifSearch extends PureComponent {
               }).catch(this.handleRequestError)
           }).catch(this.handleRequestError)
         
-      } else if (this.provider == providers.TENOR) {
+      } else if (this.state.currentProvider == providers.TENOR) {
 
           this.fetchTenorGifs(endpoint).then((tenorResponseJSON) => { 
               if (search_term == this.state.search_term) {
@@ -163,7 +198,7 @@ class GifSearch extends PureComponent {
               }
           }).catch(this.handleRequestError)
 
-      } else if (this.provider == providers.GIPHY) {
+      } else if (this.state.currentProvider == providers.GIPHY) {
 
           this.fetchGiphyGifs(endpoint).then((giphyResponseJSON) => { 
               if (search_term == this.state.search_term) {
@@ -177,7 +212,7 @@ class GifSearch extends PureComponent {
 
   fetchTenorGifs = (endpoint) => {
       var limit = Math.min(this.gifsToLoad, this.maxGifsToLoad - this.state.offset)
-      if (this.provider == providers.ALL) { 
+      if (this.state.currentProvider == providers.ALL) { 
           limit = Math.ceil(limit/2)
       }
 
@@ -211,13 +246,20 @@ class GifSearch extends PureComponent {
 
   fetchGiphyGifs = (endpoint) => {
       var limit = Math.min(this.gifsToLoad, this.maxGifsToLoad - this.state.offset)
-      if (this.provider == providers.ALL) { 
+      if (this.state.currentProvider == providers.ALL) { 
           limit = Math.floor(limit/2)
+      }
+
+      var base_url = GIPHY_BASE_URL;
+      if (this.state.currentGifType == gif_types.GIF) {
+        base_url += "gifs/"
+      } else if (this.state.currentGifType == gif_types.STICKER) {
+        base_url += "stickers/"
       }
     
       if (endpoint == endpoints.TRENDING) {
 
-          return Requests.fetch("GET", GIPHY_BASE_URL + "trending", {
+          return Requests.fetch("GET", base_url + "trending", {
               "api_key": this.giphyApiKey,
               "limit": limit,
               "rating": "pg",
@@ -227,7 +269,7 @@ class GifSearch extends PureComponent {
 
       } else if (endpoint == endpoints.SEARCH) {
 
-          return Requests.fetch("GET", GIPHY_BASE_URL + "search", {
+          return Requests.fetch("GET", base_url + "search", {
               "api_key": this.giphyApiKey,
               "q": this.state.search_term,
               "limit": limit,
@@ -245,10 +287,11 @@ class GifSearch extends PureComponent {
       return [...old_array, ...new_array_unique]
   }
 
-  addProviderInfo = (gifs_array, provider) => {
+  addProviderAndTypeInfo = (gifs_array, provider) => {
       gifs_array.forEach((element) => {
           element.id = provider + " " + element.id;
-          element.provider = provider
+          element.provider = provider;
+          element.type = this.state.currentGifType;
       });
       return gifs_array
   }
@@ -271,6 +314,22 @@ class GifSearch extends PureComponent {
       this.setState({search_term: new_search_term, offset: 0, gifs: [], tenorGifs: [], giphyGifs: [], next: 0}, () => {
           this.refreshGifs()
       })
+  }
+
+  showGifsButtonPressed = () => {
+      if (this.state.currentGifType != gif_types.GIF) {
+          this.setState({currentGifType: gif_types.GIF, currentProvider: this.provider, offset: 0, gifs: [], tenorGifs: [], giphyGifs: [], next: 0}, () => {
+              this.refreshGifs()
+          })
+      }
+  }
+
+  showStickersButtonPressed = () => {
+      if (this.state.currentGifType != gif_types.STICKER) {
+          this.setState({currentGifType: gif_types.STICKER, currentProvider: providers.GIPHY, offset: 0, gifs: [], tenorGifs: [], giphyGifs: [], next: 0}, () => {
+              this.refreshGifs()
+          })
+      }
   }
 
   loadMoreGifs = () => {
@@ -311,11 +370,12 @@ class GifSearch extends PureComponent {
 
           <View style={{flexDirection: 'row', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' }}>
             <TextInput
-              placeholder={this.placeholderText}
+              placeholder={this.state.currentGifType == gif_types.GIF ? (this.placeholderText) : (this.stickersPlaceholderText)}
               placeholderTextColor={this.placeholderTextColor}
               autoCapitalize='none'
               style={[this.styles.textInput, {width: this.providerLogo == null ? '100%' : '60%'}, this.props.textInputStyle]}
               onChangeText={this.onSearchTermChanged}
+              value={this.state.search_term}
               {...this.props.textInputProps}
             />
             {this.providerLogo != null ?
@@ -329,6 +389,38 @@ class GifSearch extends PureComponent {
             (null)
             }
           </View>
+          {this.gifType == gif_types.ALL ?
+          (
+            <View style={{flex:1, flexDirection:'row', justifyContent:'center', paddingBottom: 5}}>
+                
+                <TouchableOpacity
+                    style={this.state.currentGifType != gif_types.GIF ? ([this.styles.gifTypeButton, this.props.showGifsButtonStyle])
+                          : ([this.styles.gifTypeButton, this.props.showGifsButtonStyle, this.styles.gifTypeButtonSelected, this.props.showGifsButtonSelectedStyle])}
+                    onPress={this.showGifsButtonPressed}
+                >
+                    <Text style={this.state.currentGifType != gif_types.GIF ? ([this.styles.gifTypeButtonText, this.props.showGifsButtonTextStyle])
+                          : ([this.styles.gifTypeButtonText, this.props.showGifsButtonTextStyle, this.styles.gifTypeButtonSelectedText, this.props.showGifsButtonSelectedTextStyle])}
+                    >
+                        {this.showGifsButtonText}
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={this.state.currentGifType != gif_types.STICKER ? ([this.styles.gifTypeButton, this.props.showStickersButtonStyle])
+                          : ([this.styles.gifTypeButton, this.props.showStickersButtonStyle, this.styles.gifTypeButtonSelected, this.props.showStickersButtonSelectedStyle])}
+                    onPress={this.showStickersButtonPressed}
+                >
+                    <Text style={this.state.currentGifType != gif_types.STICKER ? ([this.styles.gifTypeButtonText, this.props.showStickersButtonTextStyle])
+                          : ([this.styles.gifTypeButtonText, this.props.showStickersButtonTextStyle, this.styles.gifTypeButtonSelectedText, this.props.showStickersButtonSelectedTextStyle])}
+                    >
+                        {this.showStickersButtonText}
+                    </Text>
+                </TouchableOpacity>
+
+            </View>
+          )
+          :
+          (null)
+          }
           <FlatList
             onEndReached={this.loadMoreGifs}
             onEndReachedThreshold={0.98}
@@ -366,6 +458,7 @@ class GifSearch extends PureComponent {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={() => {this.props.onGifSelected(gif_better_quality, item); Keyboard.dismiss()}}
+                  onLongPress={() => {this.props.onGifLongPress(gif_better_quality, item); Keyboard.dismiss()}}
                   onLongPress={() => {if (this.props.onGifLongPress) {this.props.onGifLongPress(gif_better_quality, item)}}}>
                     
                   <Image
@@ -405,27 +498,48 @@ class GifSearch extends PureComponent {
 
   styles = StyleSheet.create({
     view: {
-      flex: 1,
-      alignItems: 'center',
-      backgroundColor: 'black',
-      padding: 10,
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: 'black',
+        padding: 10,
     },
     textInput: {
-      height: 50,
-      fontSize: 20,
-      paddingLeft: 10,
-      color: 'white'
+        height: 50,
+        fontSize: 20,
+        paddingLeft: 10,
+        color: 'white'
     },
     image: {
-      borderWidth: 3,
-      marginRight: 10,
-      marginBottom: 10
+        borderWidth: 3,
+        marginRight: 10,
+        marginBottom: 10
     },
     gifList: {
-      height: 160,
-      margin: 5, 
-      marginBottom: 10,
+        height: 160,
+        margin: 5, 
+        marginBottom: 10,
     },
+    gifTypeButton: {
+        flex: 1,
+        alignItems: "center",
+        backgroundColor: "black",
+        borderRadius: 15,
+        padding: 6,
+        marginHorizontal: 4,
+        borderColor: "black",
+        borderWidth: 2
+    },
+    gifTypeButtonSelected: {
+        borderColor: "white",
+        borderWidth: 2
+    },
+    gifTypeButtonText: {
+        fontSize: 14,
+        color: "#e3e3e3"
+    },
+    gifTypeButtonSelectedText: {
+        fontWeight: "bold",
+    }
   });
 
 }

@@ -17,12 +17,18 @@ export default class App extends React.Component {
       super(props);
 
       this.state = {
-          gif_url: null
+        gif_url: null,
+        gif_provider: null,
+        gif_type: null
       }
   }
 
   onGifSelected = (gif_url, gif_object) => {
-      this.setState({gif_url: gif_url, gif_provider: gif_object.provider})
+      this.setState({gif_url: gif_url, gif_provider: gif_object.provider, gif_type: gif_object.type})
+  }
+
+  onGifLongPress = (gif_url, gif_object) => {
+      alert(gif_url)
   }
 
   render() {
@@ -32,14 +38,16 @@ export default class App extends React.Component {
           giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
           provider={"all"}
           gifsToLoad={10}
-          maxGifsToLoad={25}
+          maxGifsToLoad={50}
           style={{backgroundColor: '#9fd4ab'}}
           textInputStyle={{color: 'black'}}
           gifStyle={{height:160}}
           loadingSpinnerColor={'black'}
           placeholderTextColor={'grey'}
-          placeholderText={'Search Tenor and Giphy'}
+          placeholderText={'Search Gifs from Tenor and Giphy'}
+          stickersPlaceholderText={'Search Stickers from Giphy'}
           onGifSelected={this.onGifSelected}
+          onGifLongPress={this.onGifLongPress}
           visible={true}
           horizontal={true}
           showScrollBar={false}
@@ -47,12 +55,13 @@ export default class App extends React.Component {
           noGifsFoundText={"No Gifs found :("}
           noGifsFoundTextStyle={{fontWeight: 'bold'}}
           textInputProps={{autoFocus: true}}
+          gifType={"all"}
         />
         <View style={styles.gifPreview}>
             {this.state.gif_url ?
             (
               <View>
-                <Text style={{textAlign:'center', fontSize: 20}}>Selected Gif:</Text>
+                <Text style={{textAlign:'center', fontSize: 20}}>Selected {this.state.gif_type}:</Text>
                 <View style={styles.gifContainer}>
                     <Image
                       style={styles.gif}
@@ -62,7 +71,7 @@ export default class App extends React.Component {
                     (
                       <Image 
                         source={this.state.gif_provider == "tenor" ? (viaTenorLogoGrey) : (poweredByGiphyLogoGrey)} 
-                        style={styles.giphyLogo}
+                        style={styles.providerLogo}
                       />
                     )
                     :
@@ -72,11 +81,7 @@ export default class App extends React.Component {
               </View>
             )
             :
-            (
-              <View>
-                <Text style={{textAlign:'center', fontSize: 20}}>Selected Gif: None</Text>
-              </View>
-            )
+            (null)
             }
             
         </View>
@@ -98,7 +103,7 @@ const styles = StyleSheet.create({
   },
   gifContainer: {
     width: 280,
-    height: 280,
+    height: 240,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
@@ -106,11 +111,12 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   gif: {
-    width: 250, height: 220,
+    width: 250,
+    height: 180,
     borderRadius: 25,
     resizeMode: 'contain',
   },
-  giphyLogo: {
+  providerLogo: {
     width: 190,
     height:15,
     resizeMode: 'contain',
