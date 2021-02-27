@@ -1,5 +1,5 @@
 # react-native-gif-search
-> An easy-to-use, highly customizable react-native package for searching and selecting a gif using the Tenor and/or the Giphy API
+> An easy-to-use, highly customizable react-native package for searching and selecting from a list of gifs and/or stickers using the Tenor and/or the Giphy API
 
 <p align="center">
   <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="npm downloads" src="https://img.shields.io/npm/dm/react-native-gif-search.svg"/></a>
