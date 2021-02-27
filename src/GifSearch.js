@@ -37,7 +37,7 @@ const endpoints = {
 
 class GifSearch extends PureComponent {
 
-	constructor(props) {
+    constructor(props) {
       super(props);
 
       this.gifsToLoad = 15;
