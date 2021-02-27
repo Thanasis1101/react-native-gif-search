@@ -137,7 +137,7 @@ You can see a full example project in the [example](example/) folder and more sp
 
 | Property name | Required | Explanation | Default |
 | --- | --- | --- | --- |
-| `onGifSelected` | Yes | Function to be called when user clicks on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). The Giphy object (second parameter) also contains the provider (`"giphy"`, `"tenor"`) and the type (`gif`, `sticker`). See a usage example of this in `onGifSelected` function of [App.js](example/App.js) | |
+| `onGifSelected` | Yes | Function to be called when user clicks on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). The Giphy object (second parameter) also contains the provider (`"giphy"`, `"tenor"`) and the type (`"gif"`, `"sticker"`). See a usage example of this in `onGifSelected` function of [App.js](example/App.js) | |
 | `giphyApiKey` | Yes, except if `provider={"tenor"}` | The Giphy API key you obtained (see step 1 [here](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8)) |  |
 | `tenorApiKey` | No | The Tenor API key you obtained from [here](https://tenor.com/developer/keyregistration) |  |
 | `provider` | No | From which provider to load gifs. Can be `"tenor"`, `"giphy"` or `"all"`. | `"all"` |
@@ -198,7 +198,7 @@ For the Giphy API you need to upgrade the Giphy API key. To do so, you must veri
 
 - v1.1.2
   - **Added support for Stickers from GIPHY API**
-  - **Added callback function for when user long presses a gif**
+  - **onGifLongPress**: Now you can provide a function used when the user long presses a gif (e.g. for showing a preview before selecting)
   - **New properties**: `gifType`, `stickersPlaceholderText`, `onGifLongPress`, `showGifsButtonText`, `showGifsButtonTextStyle`, `showGifsButtonSelectedTextStyle`, `showGifsButtonStyle`, `showGifsButtonSelectedStyle`, `showStickersButtonText`, `showStickersButtonTextStyle`, `showStickersButtonSelectedTextStyle`, `showStickersButtonStyle`, `showStickersButtonSelectedStyle` (see [Properties](#properties) section for explanation).
 
 - v1.1.0
