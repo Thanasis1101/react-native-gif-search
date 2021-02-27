@@ -7,10 +7,13 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%201.jpg" width="250" title="react-native-gif-searc screenshot 1">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-gifs-and-stickers-screenshot.gif" width="250" title="react-native-gif-search-gifs-and-stickers-screenshot">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-with-giphy-logo.gif" width="250" title="react-native-gif-search-with-giphy-logo">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-without-giphy-logo.gif" width="250" title="react-native-gif-search-without-giphy-logo">
-  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%202.png" width="757" title="react-native-gif-searc screenshot 2">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%201.jpg" width="250" title="react-native-gif-search screenshot 1">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-gifs-and-stickers-screenshot.png" width="250" title="react-native-gif-search-gifs-and-stickers-screenshot">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-stickers-screenshot.png" width="250" title="react-native-gif-search-stickers-screenshot">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%202.png" width="757" title="react-native-gif-search screenshot 2">
 </p>
 
 
