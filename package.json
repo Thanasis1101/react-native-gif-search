@@ -1,10 +1,10 @@
 {
   "name": "@thanasis1101/react-native-gif-search",
-  "version": "1.0.5",
+  "version": "1.1.2",
   "description": "An easy-to-use, highly customizable react-native package for searching and selecting from a list of gifs and/or stickers using the Tenor and/or the Giphy API",
   "main": "index.js",
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com/"
+    "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -36,6 +36,5 @@
     "url": "https://github.com/Thanasis1101/react-native-gif-search/issues"
   },
   "homepage": "https://github.com/Thanasis1101/react-native-gif-search#readme",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
