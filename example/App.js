@@ -34,18 +34,29 @@ export default class App extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps={"handled"}>
-        <GifSearch
+      <GifSearch
           giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
-          onGifSelected={(gif_url)=>{alert(gif_url)}}
-          textInputStyle={{fontWeight: 'bold', color: 'white'}}
-          loadingSpinnerColor={'white'}
+          provider={"all"}
+          gifsToLoad={10}
+          maxGifsToLoad={50}
+          style={{backgroundColor: '#9fd4ab'}}
+          textInputStyle={{color: 'black'}}
+          gifStyle={{height:160}}
+          loadingSpinnerColor={'black'}
           placeholderTextColor={'grey'}
-          providerLogo={poweredByGiphyLogoWhite}
+          placeholderText={'Search Gifs from Tenor and Giphy'}
+          stickersPlaceholderText={'Search Stickers from Giphy'}
+          onGifSelected={this.onGifSelected}
+          onGifLongPress={this.onGifLongPress}
+          visible={true}
+          horizontal={true}
           showScrollBar={false}
-          noGifsFoundText={"No Stickers found :("}
-          stickersPlaceholderText={"Search for stickers"}
-          gifType={"sticker"}
-        />
+          onError={(error) => {console.log(error)}}
+          noGifsFoundText={"No Gifs found :("}
+          noGifsFoundTextStyle={{fontWeight: 'bold'}}
+          textInputProps={{autoFocus: true}}
+          gifType={"all"}
+      />
         <View style={styles.gifPreview}>
             {this.state.gif_url ?
             (
