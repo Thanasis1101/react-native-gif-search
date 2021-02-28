@@ -131,10 +131,30 @@ You can import only the logos that you need and use them like this: `<Image sour
 ```
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%205.jpg" width="250" title="react-native-gif-searc screenshot 5">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%205.jpg" width="250" title="react-native-gif-search screenshot 5">
 </p>
 
-You can see a full example project in the [example](example/) folder and more specifically in the [App.js](example/App.js) file.
+### Stickers example
+```
+<GifSearch
+  giphyApiKey={YOUR_GIPHY_API_KEY}
+  onGifSelected={(gif_url)=>{alert(gif_url)}}
+  textInputStyle={{fontWeight: 'bold', color: 'white'}}
+  loadingSpinnerColor={'white'}
+  placeholderTextColor={'grey'}
+  providerLogo={poweredByGiphyLogoWhite}
+  showScrollBar={false}
+  noGifsFoundText={"No stickers found :("}
+  stickersPlaceholderText={"Search for stickers"}
+  gifType={"sticker"}
+/>
+```
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-stickers-example-screenshot.png" width="250" title="react-native-gif-search stickers example screenshot">
+</p>
+
+You can see a full example project (with gifs and stickers) in the [example](example/) folder and more specifically in the [App.js](example/App.js) file.
 
 # Properties
 
@@ -199,7 +219,7 @@ For the Giphy API you need to upgrade the Giphy API key. To do so, you must veri
 
 ## Version History
 
-- v1.1.2
+- v1.2.0
   - **Added support for Stickers from GIPHY API**
   - **onGifLongPress**: Now you can provide a function used when the user long presses a gif (e.g. for showing a preview before selecting)
   - **New properties**: `gifType`, `stickersPlaceholderText`, `onGifLongPress`, `showGifsButtonText`, `showGifsButtonTextStyle`, `showGifsButtonSelectedTextStyle`, `showGifsButtonStyle`, `showGifsButtonSelectedStyle`, `showStickersButtonText`, `showStickersButtonTextStyle`, `showStickersButtonSelectedTextStyle`, `showStickersButtonStyle`, `showStickersButtonSelectedStyle` (see [Properties](#properties) section for explanation).
