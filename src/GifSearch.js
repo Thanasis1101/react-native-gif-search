@@ -88,7 +88,7 @@ class GifSearch extends PureComponent {
       if (props.numColumns != null) {
           this.numColumns = props.numColumns;
           this.horizontal = false;
-          this.state.gifSize = Dimensions.get('window').width / this.numColumns - 20;
+          this.gifSize = Dimensions.get('window').width / this.numColumns - 20;
       }
       this.provider = providers.ALL;
       if (props.provider != null) {
@@ -136,6 +136,7 @@ class GifSearch extends PureComponent {
         gifsOver: false,
         noGifsFound: false,
         next: 0,
+        gifSize: this.gifSize,
       }
 
   }
