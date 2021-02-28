@@ -88,7 +88,7 @@ class GifSearch extends PureComponent {
       if (props.numColumns != null) {
           this.numColumns = props.numColumns;
           this.horizontal = false;
-          this.gifSize = Dimensions.get('window').width / this.numColumns - 20;
+          this.gifSize = Dimensions.get('window').width / this.numColumns - 15;
       }
       this.provider = providers.ALL;
       if (props.provider != null) {
@@ -352,7 +352,7 @@ class GifSearch extends PureComponent {
       }
       if (this.numColumns > 1) {   
           Dimensions.addEventListener('change', () => {
-              this.setState({gifSize: Dimensions.get('window').width / this.numColumns - 20})
+              this.setState({gifSize: Dimensions.get('window').width / this.numColumns - 15})
           })     
       }
   }
@@ -369,12 +369,13 @@ class GifSearch extends PureComponent {
       (          
         <View style={[this.styles.view, this.props.style]}>
 
-          <View style={{flexDirection: 'row', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' }}>
+          {/** EDIT: input box should fill whole space */}
+          <View style={{flexDirection: 'row', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'space-between' }}>
             <TextInput
               placeholder={this.state.currentGifType == gif_types.GIF ? (this.placeholderText) : (this.stickersPlaceholderText)}
               placeholderTextColor={this.placeholderTextColor}
               autoCapitalize='none'
-              style={[this.styles.textInput, {width: this.providerLogo == null ? '100%' : '60%'}, this.props.textInputStyle]}
+              style={[this.styles.textInput, this.props.textInputStyle]}
               onChangeText={this.onSearchTermChanged}
               value={this.state.search_term}
               {...this.props.textInputProps}
@@ -383,17 +384,20 @@ class GifSearch extends PureComponent {
             (
                 <Image 
                   source={this.providerLogo} 
-                  style={{width: '40%', height: 50, resizeMode: 'contain'}}
+                  style={{width: '25%', height: 50, resizeMode: 'contain'}}
                 />
             )
             :
             (null)
             }
           </View>
-          {this.gifType == gif_types.ALL ?
+          {
+            /** EDIT: flex: 1 results in height-stretched buttons */   
+            this.gifType == gif_types.ALL ?
           (
-            <View style={{flex:1, flexDirection:'row', justifyContent:'center', paddingBottom: 5}}>
+            <View style={{flexDirection:'row', alignItems:'center', marginVertical: 5}}>
                 
+                {/** EDIT: margin between buttons only, not on their end-sides */}
                 <TouchableOpacity
                     style={this.state.currentGifType != gif_types.GIF ? ([this.styles.gifTypeButton, this.props.showGifsButtonStyle])
                           : ([this.styles.gifTypeButton, this.props.showGifsButtonStyle, this.styles.gifTypeButtonSelected, this.props.showGifsButtonSelectedStyle])}
@@ -405,9 +409,10 @@ class GifSearch extends PureComponent {
                         {this.showGifsButtonText}
                     </Text>
                 </TouchableOpacity>
+               
                 <TouchableOpacity
-                    style={this.state.currentGifType != gif_types.STICKER ? ([this.styles.gifTypeButton, this.props.showStickersButtonStyle])
-                          : ([this.styles.gifTypeButton, this.props.showStickersButtonStyle, this.styles.gifTypeButtonSelected, this.props.showStickersButtonSelectedStyle])}
+                    style={this.state.currentGifType != gif_types.STICKER ? ([this.styles.gifTypeButton, this.styles.stickerTypeButton, this.props.showStickersButtonStyle])
+                          : ([this.styles.gifTypeButton, this.styles.stickerTypeButton, this.props.showStickersButtonStyle, this.styles.gifTypeButtonSelected, this.props.showStickersButtonSelectedStyle])}
                     onPress={this.showStickersButtonPressed}
                 >
                     <Text style={this.state.currentGifType != gif_types.STICKER ? ([this.styles.gifTypeButtonText, this.props.showStickersButtonTextStyle])
@@ -424,7 +429,7 @@ class GifSearch extends PureComponent {
           }
           <FlatList
             onEndReached={this.loadMoreGifs}
-            onEndReachedThreshold={0.98}
+            onEndReachedThreshold={0.8 /** EDIT */}
             onScroll={this.handleScroll}
             keyboardShouldPersistTaps={"handled"}
             style={[this.styles.gifList, this.props.gifListStyle]}
@@ -435,8 +440,8 @@ class GifSearch extends PureComponent {
             showsHorizontalScrollIndicator={this.showScrollBar}
             showsVerticalScrollIndicator={this.showScrollBar}
             {...this.props.gifListProps}
-            renderItem={({item}) => {
-
+            renderItem={({item, index}) => {
+              // EDIT: no right margin for last image column
               var aspect_ratio = null;
               var gif_preview = null;
               var gif_better_quality = null;
@@ -464,7 +469,7 @@ class GifSearch extends PureComponent {
                     
                   <Image
                     resizeMode={'cover'}
-                    style={[this.styles.image, this.numColumns > 1 ? {width:this.state.gifSize, minHeight: this.state.gifSize, maxHeight:this.state.gifSize} : {aspectRatio: aspect_ratio ? aspect_ratio : 4/3, height: 150}, this.props.gifStyle]}
+                    style={[this.styles.image, (index+1)%this.numColumns === 0 ? this.styles.lastColumnImage : {}, this.numColumns > 1 ? {width:this.state.gifSize, minHeight: this.state.gifSize, maxHeight:this.state.gifSize} : {aspectRatio: aspect_ratio ? aspect_ratio : 4/3, height: 150}, this.props.gifStyle]}
                     source={{uri: gif_preview}}
                   />
                 </TouchableOpacity>
@@ -505,6 +510,7 @@ class GifSearch extends PureComponent {
         padding: 10,
     },
     textInput: {
+        flex: 1,
         height: 50,
         fontSize: 20,
         paddingLeft: 10,
@@ -515,9 +521,11 @@ class GifSearch extends PureComponent {
         marginRight: 10,
         marginBottom: 10
     },
+    lastColumnImage: {
+        marginRight: 0,
+    },
     gifList: {
         height: 160,
-        margin: 5, 
         marginBottom: 10,
     },
     gifTypeButton: {
@@ -526,9 +534,13 @@ class GifSearch extends PureComponent {
         backgroundColor: "black",
         borderRadius: 15,
         padding: 6,
-        marginHorizontal: 4,
+        marginRight: 2,
         borderColor: "black",
         borderWidth: 2
+    },
+    stickerTypeButton: {
+        marginRight: 0,
+        marginLeft: 2
     },
     gifTypeButtonSelected: {
         borderColor: "white",
@@ -546,4 +558,3 @@ class GifSearch extends PureComponent {
 }
 
 export default GifSearch;
-
