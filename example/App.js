@@ -7,7 +7,7 @@ import {
     Image,
 } from 'react-native';
 
-import {GifSearch, viaTenorLogoGrey, poweredByGiphyLogoGrey} from 'react-native-gif-search';
+import {GifSearch, viaTenorLogoGrey, poweredByGiphyLogoWhite} from 'react-native-gif-search';
 
 const DEVELOPMENT_MODE = false;
 
@@ -36,26 +36,15 @@ export default class App extends React.Component {
       <ScrollView style={styles.container} keyboardShouldPersistTaps={"handled"}>
         <GifSearch
           giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
-          provider={"all"}
-          gifsToLoad={10}
-          maxGifsToLoad={50}
-          style={{backgroundColor: '#9fd4ab'}}
-          textInputStyle={{color: 'black'}}
-          gifStyle={{height:160}}
-          loadingSpinnerColor={'black'}
+          onGifSelected={(gif_url)=>{alert(gif_url)}}
+          textInputStyle={{fontWeight: 'bold', color: 'white'}}
+          loadingSpinnerColor={'white'}
           placeholderTextColor={'grey'}
-          placeholderText={'Search Gifs from Tenor and Giphy'}
-          stickersPlaceholderText={'Search Stickers from Giphy'}
-          onGifSelected={this.onGifSelected}
-          onGifLongPress={this.onGifLongPress}
-          visible={true}
-          horizontal={true}
+          providerLogo={poweredByGiphyLogoWhite}
           showScrollBar={false}
-          onError={(error) => {console.log(error)}}
-          noGifsFoundText={"No Gifs found :("}
-          noGifsFoundTextStyle={{fontWeight: 'bold'}}
-          textInputProps={{autoFocus: true}}
-          gifType={"all"}
+          noGifsFoundText={"No Stickers found :("}
+          stickersPlaceholderText={"Search for stickers"}
+          gifType={"sticker"}
         />
         <View style={styles.gifPreview}>
             {this.state.gif_url ?

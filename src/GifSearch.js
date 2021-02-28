@@ -127,16 +127,16 @@ class GifSearch extends PureComponent {
       this.state = {
         gifs: [],
         offset: 0,
-        search_term: "",
-        visible: props.visible != null ? props.visible : true,
-        currentGifType: currentGifType,
-        currentProvider: this.provider,
+        next: 0,
         scrollOffset: 0,
+        search_term: "",
         fetching: false,
         gifsOver: false,
         noGifsFound: false,
-        next: 0,
+        currentGifType: currentGifType,
+        currentProvider: this.provider,
         gifSize: this.gifSize,
+        visible: props.visible != null ? props.visible : true,
       }
 
   }
