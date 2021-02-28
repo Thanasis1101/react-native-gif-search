@@ -7,7 +7,7 @@ import {
     Image,
 } from 'react-native';
 
-import {GifSearch, viaTenorLogoGrey, poweredByGiphyLogoWhite} from 'react-native-gif-search';
+import {GifSearch, viaTenorLogoGrey, poweredByTenorLogoBlue} from 'react-native-gif-search';
 
 const DEVELOPMENT_MODE = false;
 
@@ -34,7 +34,7 @@ export default class App extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container} keyboardShouldPersistTaps={"handled"}>
-      <GifSearch
+        <GifSearch
           giphyApiKey={"NctafbvmG7x6Z1HyDVsd5gvB5SBf87ZE"}
           provider={"all"}
           gifsToLoad={10}
@@ -56,7 +56,7 @@ export default class App extends React.Component {
           noGifsFoundTextStyle={{fontWeight: 'bold'}}
           textInputProps={{autoFocus: true}}
           gifType={"all"}
-      />
+        />
         <View style={styles.gifPreview}>
             {this.state.gif_url ?
             (
