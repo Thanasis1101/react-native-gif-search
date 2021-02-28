@@ -369,12 +369,12 @@ class GifSearch extends PureComponent {
       (          
         <View style={[this.styles.view, this.props.style]}>
 
-          {/** EDIT: input box should fill whole space */}
           <View style={{flexDirection: 'row', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'space-between' }}>
             <TextInput
               placeholder={this.state.currentGifType == gif_types.GIF ? (this.placeholderText) : (this.stickersPlaceholderText)}
               placeholderTextColor={this.placeholderTextColor}
-              autoCapitalize='none'
+              autoCapitalize={'none'}
+              numberOfLines={1}
               style={[this.styles.textInput, this.props.textInputStyle]}
               onChangeText={this.onSearchTermChanged}
               value={this.state.search_term}
@@ -384,20 +384,18 @@ class GifSearch extends PureComponent {
             (
                 <Image 
                   source={this.providerLogo} 
-                  style={{width: '25%', height: 50, resizeMode: 'contain'}}
+                  style={[this.styles.providerLogo, this.props.providerLogoStyle]}
                 />
             )
             :
             (null)
             }
           </View>
-          {
-            /** EDIT: flex: 1 results in height-stretched buttons */   
+          { 
             this.gifType == gif_types.ALL ?
-          (
-            <View style={{flexDirection:'row', alignItems:'center', marginVertical: 5}}>
+            (
+            <View style={{flexDirection:'row', alignItems:'center', marginTop: 5, marginBottom:15}}>
                 
-                {/** EDIT: margin between buttons only, not on their end-sides */}
                 <TouchableOpacity
                     style={this.state.currentGifType != gif_types.GIF ? ([this.styles.gifTypeButton, this.props.showGifsButtonStyle])
                           : ([this.styles.gifTypeButton, this.props.showGifsButtonStyle, this.styles.gifTypeButtonSelected, this.props.showGifsButtonSelectedStyle])}
@@ -429,7 +427,7 @@ class GifSearch extends PureComponent {
           }
           <FlatList
             onEndReached={this.loadMoreGifs}
-            onEndReachedThreshold={0.8 /** EDIT */}
+            onEndReachedThreshold={0.8}
             onScroll={this.handleScroll}
             keyboardShouldPersistTaps={"handled"}
             style={[this.styles.gifList, this.props.gifListStyle]}
@@ -441,7 +439,7 @@ class GifSearch extends PureComponent {
             showsVerticalScrollIndicator={this.showScrollBar}
             {...this.props.gifListProps}
             renderItem={({item, index}) => {
-              // EDIT: no right margin for last image column
+
               var aspect_ratio = null;
               var gif_preview = null;
               var gif_better_quality = null;
@@ -469,7 +467,7 @@ class GifSearch extends PureComponent {
                     
                   <Image
                     resizeMode={'cover'}
-                    style={[this.styles.image, (index+1)%this.numColumns === 0 ? this.styles.lastColumnImage : {}, this.numColumns > 1 ? {width:this.state.gifSize, minHeight: this.state.gifSize, maxHeight:this.state.gifSize} : {aspectRatio: aspect_ratio ? aspect_ratio : 4/3, height: 150}, this.props.gifStyle]}
+                    style={[this.styles.image, !this.horizontal && (index+1)%this.numColumns === 0 ? this.styles.lastColumnImage : {}, this.numColumns > 1 ? {width:this.state.gifSize, minHeight: this.state.gifSize, maxHeight:this.state.gifSize} : {aspectRatio: aspect_ratio ? aspect_ratio : 4/3, height: 150}, this.props.gifStyle]}
                     source={{uri: gif_preview}}
                   />
                 </TouchableOpacity>
@@ -513,7 +511,7 @@ class GifSearch extends PureComponent {
         flex: 1,
         height: 50,
         fontSize: 20,
-        paddingLeft: 10,
+        marginHorizontal: 10,
         color: 'white'
     },
     image: {
@@ -552,6 +550,11 @@ class GifSearch extends PureComponent {
     },
     gifTypeButtonSelectedText: {
         fontWeight: "bold",
+    },
+    providerLogo: {
+        width: '35%',
+        height: 50,
+        resizeMode: 'contain'
     }
   });
 
