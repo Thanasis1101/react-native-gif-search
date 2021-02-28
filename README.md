@@ -143,6 +143,7 @@ You can import only the logos that you need and use them like this: `<Image sour
   loadingSpinnerColor={'white'}
   placeholderTextColor={'grey'}
   providerLogo={poweredByGiphyLogoWhite}
+  providerLogoStyle={{width:'40%'}}
   showScrollBar={false}
   noGifsFoundText={"No stickers found :("}
   stickersPlaceholderText={"Search for stickers"}
@@ -168,6 +169,7 @@ You can see a full example project (with gifs and stickers) in the [example](exa
 | `gifsToLoad` | No | How many gifs to load in the beginning and every time the user reaches the scroll end | `15` |
 | `maxGifsToLoad` | No | On how many gifs to stop loading more gifs | `60` |
 | `providerLogo` | No | The logo to appear on top right corner (e.g.`providerLogo={poweredByTenorLogoGrey}`)| |
+| `providerLogoStyle` | No | The style of the provider's logo (e.g.`providerLogoStyle={{width:'40%'}}`)| |
 | `placeholderText` | No | The text for when there is no search term and `gifType` is set to `"gif"`. If `gifType` is set to `"all"` then this is the placeholder while gifs button is selected. | `'Search GIF'` |
 | `stickersPlaceholderText` | No | The text for when there is no search term and `gifType` is set to `"sticker"`. If `gifType` is set to `"all"` then this is the placeholder while stickers button is selected. | `'Search Stickers'` |
 | `visible` | No | Can be used for toggling the view for the gif selection (e.g. open on button press) | `true` |
@@ -218,6 +220,12 @@ For the Giphy API you need to upgrade the Giphy API key. To do so, you must veri
 
 
 ## Version History
+
+- v1.2.1
+  - **providerLogoStyle**: Now you can change the style of the provider logo (e.g. width, height etc.)
+  - **Fixes**: 
+    - When using columns, the last column now has no right margin.
+    - Credits to [devautor](https://github.com/devautor) for locating and helping fix this and other UI problems (see pull request [#8](https://github.com/Thanasis1101/react-native-gif-search/pull/8)). 
 
 - v1.2.0
   - **Added support for Stickers from GIPHY API**
