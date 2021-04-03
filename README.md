@@ -4,6 +4,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="npm downloads" src="https://img.shields.io/npm/dm/react-native-gif-search.svg"/></a>
   <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="npm version" src="https://badge.fury.io/js/react-native-gif-search.svg"/></a>
+  <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="typescript" src="https://flat.badgen.net/badge/Built%20With/TypeScript/blue"/></a>
 </p>
 
 <p align="center">
