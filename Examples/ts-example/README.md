@@ -8,7 +8,8 @@
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-typescript-example.gif" width="250" title="react-native-gif-search-typescript-example">
 </p>
 
-> Example creator: [anthlasserre](https://github.com/anthlasserre)
+Example project creator: [anthlasserre](https://github.com/anthlasserre)
+
 # Intall and Run
 
 Download example project and install node modules
