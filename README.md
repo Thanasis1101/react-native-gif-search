@@ -234,7 +234,7 @@ Source: https://tenor.com/gifapi/documentation#attribution
 For the Giphy API you need to upgrade the Giphy API key. To do so, you must verify that you have used the Giphy attribution marks (Giphy logos) in your app, by providing screenshots and videos from your app. The verification process can take up to 3 days. The `react-native-gif-search` package can help you with this too, because it has a property for adding a logo on top right corner (see `providerLogo` in [Properties](#properties) section) or you can include a Giphy logo near your shared GIF using the logos you can import from this package (see [Import](#import) section).
 
 ## Warnings :warning:
-- If your GifSearch component is nested in a `ScrollView` you should add `keyboardShouldPersistTaps={"handled"}` property in the ScrollView (like in [example code](Examples/js-example/App.js)).
+- If your GifSearch component is nested in a `ScrollView` you should add `keyboardShouldPersistTaps={"handled"}` property in the ScrollView (like in [example code](Examples/js-example/App.js)), otherwise the scrolling will probably be luggy.
 - If you want to have `borderRadius` for a GIF, you should also use `overlayColor`, otherwise there will probably be no border radius when you test it. See `gifComponent` style in [GifPicker example code](Examples/ts-example/src/components/GifPicker.tsx)). To find out more about this issue check [this StackOverflow answer](https://stackoverflow.com/a/41715524/7053344).
 
 
