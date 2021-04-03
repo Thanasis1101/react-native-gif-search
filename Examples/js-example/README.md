@@ -2,6 +2,9 @@
 > This is a plain Javascript example project for **react-native-gif-search**
 
 <p align="center">
+  <a href="Examples/js-example"><img alt="Javascript Example" src="https://badges.aleen42.com/src/javascript.svg"/></a>
+</p>
+<p align="center">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-gifs-and-stickers-screenshot.gif" width="250" title="react-native-gif-search-gifs-and-stickers-screenshot">
 </p>
   
