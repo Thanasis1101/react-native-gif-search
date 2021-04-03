@@ -4,24 +4,29 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="npm downloads" src="https://img.shields.io/npm/dm/react-native-gif-search.svg"/></a>
   <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="npm version" src="https://badge.fury.io/js/react-native-gif-search.svg"/></a>
-  <a href="https://www.npmjs.com/package/react-native-gif-search"><img alt="typescript" src="https://flat.badgen.net/badge/Built%20With/TypeScript/blue"/></a>
+  <a href="Examples/js-example"><img alt="Javascript Example" src="https://badges.aleen42.com/src/javascript.svg"/></a>
+  <a href="Examples/ts-example"><img alt="Typescript Example" src="https://badges.aleen42.com/src/typescript.svg"/></a>
 </p>
 
 <p align="center">
+  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-typescript-example.gif" width="250" title="react-native-gif-search-typescript-example">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-gifs-and-stickers-screenshot.gif" width="250" title="react-native-gif-search-gifs-and-stickers-screenshot">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-with-giphy-logo.gif" width="250" title="react-native-gif-search-with-giphy-logo">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-without-giphy-logo.gif" width="250" title="react-native-gif-search-without-giphy-logo">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%201.jpg" width="250" title="react-native-gif-search screenshot 1">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-gifs-and-stickers-screenshot.png" width="250" title="react-native-gif-search-gifs-and-stickers-screenshot">
-  <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-stickers-screenshot.png" width="250" title="react-native-gif-search-stickers-screenshot">
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search%20screenshot%202.png" width="757" title="react-native-gif-search screenshot 2">
 </p>
+
+<p align="center">
+  See more previews <b><a href="Preview">here</a></b>.
+</p>
+
 
 
 This package allows you to present a searchable list of gifs to the user, from which the user can select the desired gif. In the beginning and when the search term is empty, a list of **trending gifs** is shown. You can use this component inside a chat screen, for posts, comments or wherever else you need. The gifs that are displayed in the gifs list are low quality previews, in order to load faster and minimize mobile data usage. The gif that the user selects is given in a higher quality, so that it can be used and displayed properly in the app.
 
 This package uses the [Giphy API](https://developers.giphy.com/docs/api/) so you need to create an account and obtain an API key which is free and easy. [This article](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8) was helpful for creating this package and has instructions on how to get a Giphy API key. The [Tenor API](https://tenor.com/gifapi/documentation#quickstart) has also been added, for which an API key can be obtained [here](https://tenor.com/developer/keyregistration). This means that you can present gifs using the Giphy API, the Tenor API or both.
-
 
 ## Installation
 
@@ -38,6 +43,15 @@ implementation 'com.facebook.fresco:animated-gif:2.0.0'
 ```
 
 ## Usage
+
+### Example Projects
+
+[![Javascript](https://badges.aleen42.com/src/javascript.svg)](Examples/js-example)
+For a plain Javascript example project go to [Examples/js-example](Examples/js-example)
+
+[![Javascript](https://badges.aleen42.com/src/typescript.svg)](Examples/ts-example)
+If you use TypeScript for your project go to [Examples/ts-example](Examples/ts-example)
+
 ### Import
 
 ```
@@ -156,13 +170,13 @@ You can import only the logos that you need and use them like this: `<Image sour
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-stickers-example-screenshot.png" width="250" title="react-native-gif-search stickers example screenshot">
 </p>
 
-You can see a full example project (with gifs and stickers) in the [example](example/) folder and more specifically in the [App.js](example/App.js) file.
+Usage examples: [JS code](Examples/js-example/App.js), [TS code](Examples/ts-example/src/components/GifPicker.tsx).
 
 # Properties
 
 | Property name | Required | Explanation | Default |
 | --- | --- | --- | --- |
-| `onGifSelected` | Yes | Function to be called when user clicks on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). The Giphy object (second parameter) also contains the provider (`"giphy"`, `"tenor"`) and the type (`"gif"`, `"sticker"`). See a usage example of this in `onGifSelected` function of [App.js](example/App.js) | |
+| `onGifSelected` | Yes | Function to be called when user clicks on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). The Giphy object (second parameter) also contains the provider (`"giphy"`, `"tenor"`) and the type (`"gif"`, `"sticker"`). See a usage example of this in `onGifSelected` function of [App.js](Examples/js-example/App.js) | |
 | `giphyApiKey` | Yes, except if `provider={"tenor"}` | The Giphy API key you obtained (see step 1 [here](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8)) |  |
 | `tenorApiKey` | No | The Tenor API key you obtained from [here](https://tenor.com/developer/keyregistration) |  |
 | `provider` | No | From which provider to load gifs. Can be `"tenor"`, `"giphy"` or `"all"`. | `"all"` |
@@ -174,7 +188,7 @@ You can see a full example project (with gifs and stickers) in the [example](exa
 | `placeholderText` | No | The text for when there is no search term and `gifType` is set to `"gif"`. If `gifType` is set to `"all"` then this is the placeholder while gifs button is selected. | `'Search GIF'` |
 | `stickersPlaceholderText` | No | The text for when there is no search term and `gifType` is set to `"sticker"`. If `gifType` is set to `"all"` then this is the placeholder while stickers button is selected. | `'Search Stickers'` |
 | `visible` | No | Can be used for toggling the view for the gif selection (e.g. open on button press) | `true` |
-| `onGifLongPress` | No | Function to be called when user long presses on a gif. The parameters are the same with `onGifSelected`. See a usage example of this in `onGifLongPress` function of [App.js](example/App.js) |  |
+| `onGifLongPress` | No | Function to be called when user long presses on a gif. The parameters are the same with `onGifSelected`. See a usage example of this in `onGifLongPress` function of [App.js](Examples/js-example/App.js) |  |
 | `onBackPressed` | No | Function for when the device's back button is pressed. Used with `visible={this.state.visible}` for closing the gif selection when back button is pressed. If not set then default action is taken. If set then default action is ignored while gif selection is visible. Recommended usage: `onBackPressed={() => {this.setState({visible: false})}}` | |
 | `onError` | No | Function to be called when an error occures, e.g. no internet connection | |
 | `horizontal` | No | Set the orientation of the list with the gifs. Horizontal if true, vertical if false  | `true` |
@@ -219,8 +233,16 @@ Source: https://tenor.com/gifapi/documentation#attribution
 ### Giphy
 For the Giphy API you need to upgrade the Giphy API key. To do so, you must verify that you have used the Giphy attribution marks (Giphy logos) in your app, by providing screenshots and videos from your app. The verification process can take up to 3 days. The `react-native-gif-search` package can help you with this too, because it has a property for adding a logo on top right corner (see `providerLogo` in [Properties](#properties) section) or you can include a Giphy logo near your shared GIF using the logos you can import from this package (see [Import](#import) section).
 
+## Warnings :warning:
+- If your GifSearch component is nested in a `ScrollView` you should add `keyboardShouldPersistTaps={"handled"}` property in the ScrollView (like in [example code](Examples/js-example/App.js)).
+- If you want to have `borderRadius` for a GIF, you should also use `overlayColor`, otherwise there will probably be no border radius when you test it. See `gifComponent` style in [GifPicker example code](Examples/ts-example/src/components/GifPicker.tsx)). To find out more about this issue check [this StackOverflow answer](https://stackoverflow.com/a/41715524/7053344).
+
 
 ## Version History
+
+- v1.3.0
+  - **Added support for TypeScript**
+    - Credits to [anthlasserre](https://github.com/anthlasserre) for adding TS support and an example project (see pull request [#9](https://github.com/Thanasis1101/react-native-gif-search/pull/9)). 
 
 - v1.2.1
   - **providerLogoStyle**: Now you can change the style of the provider logo (e.g. width, height etc.)
@@ -241,7 +263,7 @@ For the Giphy API you need to upgrade the Giphy API key. To do so, you must veri
     - After typing the search term, the gifs of the final search term will be displayed. Previously there were cases where the user would type "test" and the gifs for "tes" would appear.
 
 - v1.0.10
-  - **giphyLogo, giphyLogoDark**: Now you can also import the giphyLogo and the giphyLogoDark from the module and use it as a `source` of an `Image` component (like in [example code](/example/App.js)).
+  - **giphyLogo, giphyLogoDark**: Now you can also import the giphyLogo and the giphyLogoDark from the module and use it as a `source` of an `Image` component (like in [example code](Examples/js-example/App.js)).
   - **Fixes**:
     - Bigger width for "no gifs found" text.
   
@@ -251,9 +273,8 @@ For the Giphy API you need to upgrade the Giphy API key. To do so, you must veri
   - **Autofocus on open**: Now you can autofocus on the search input when the GifSearch component is displayed. Just use `textInputProps={{autoFocus: true}}`.
   - **Fixes**:
     - The selected gif is now better quality with no lag (credits to [anthlasserre](https://github.com/anthlasserre) for noticing).
-    - When keyboard is open and the user selects a gif, the keyboard now closes and the gif is selected. Previously it did not select the gif on first tap.     :warning: ***Warning***: If your GifSearch component is nested in a `ScrollView` you should add `keyboardShouldPersistTaps={"handled"}` property in the ScrollView (like in [example code](/example/App.js)).
+    - When keyboard is open and the user selects a gif, the keyboard now closes and the gif is selected. Previously it did not select the gif on first tap.     
   
-
 - v1.0.7
   - **numColumns**: Displaying gifs in grid view with specific number of columns. See [Properties](#properties) section. Credits to [anthlasserre](https://github.com/anthlasserre) for suggesting and helping add this feature.
   - **gifListProps**: See [Properties](#properties) section. Credits to [anthlasserre](https://github.com/anthlasserre) for suggesting and helping add this feature.
