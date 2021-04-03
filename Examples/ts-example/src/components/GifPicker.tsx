@@ -96,10 +96,11 @@ const styles = StyleSheet.create({
     height: 400,
   },
   gifComponent: {
-    height: 120,
-    width: 120,
+    height: 100,
+    width: 100,
     borderWidth: 0,
     borderRadius: 5,
+    overlayColor: 'white',
   },
   searchInputText: {
     backgroundColor: '#F4EBEC',
