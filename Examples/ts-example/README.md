@@ -17,7 +17,7 @@
 Download example project and install node modules
 ```
 git clone https://github.com/Thanasis1101/react-native-gif-search
-cd Examples/ts-example
+cd react-native-gif-search/Examples/ts-example
 npm install
 ```
 
