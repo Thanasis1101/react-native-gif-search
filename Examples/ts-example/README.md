@@ -8,7 +8,9 @@
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-typescript-example.gif" width="250" title="react-native-gif-search-typescript-example">
 </p>
 
-Example project creator: [anthlasserre](https://github.com/anthlasserre)
+<p align="center">
+  Example project creator: <a href="https://github.com/anthlasserre">anthlasserre</a>
+</p>
 
 # Intall and Run
 
