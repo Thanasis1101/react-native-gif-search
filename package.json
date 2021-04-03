@@ -3,6 +3,7 @@
   "version": "1.2.1",
   "description": "An easy-to-use, highly customizable react-native package for searching and selecting from a list of gifs and/or stickers using the Tenor and/or the Giphy API",
   "main": "index.js",
+  "types": "./index.d.ts",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
