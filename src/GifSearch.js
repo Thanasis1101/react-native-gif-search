@@ -461,10 +461,10 @@ class GifSearch extends PureComponent {
                     aspect_ratio = parseInt(item.media[0].tinygif.dims[0])/parseInt(item.media[0].tinygif.dims[1])
                 }
               } else {
-                gif_preview = item.images[[this.giphyPreviewQuality]].url
+                gif_preview = item.images[this.giphyPreviewQuality].url
                 gif_better_quality = item.images.downsized.url
-                if (parseInt(item.images[[this.giphyPreviewQuality]].height)) {
-                    aspect_ratio = parseInt(item.images[[this.giphyPreviewQuality]].width)/parseInt(item.images[[this.giphyPreviewQuality]].height)
+                if (parseInt(item.images[this.giphyPreviewQuality].height)) {
+                    aspect_ratio = parseInt(item.images[this.giphyPreviewQuality].width)/parseInt(item.images[this.giphyPreviewQuality].height)
                 }
               }
 
