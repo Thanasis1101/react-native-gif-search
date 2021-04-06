@@ -123,6 +123,16 @@ class GifSearch extends PureComponent {
       if (currentGifType == gif_types.STICKER) {
           this.provider = providers.GIPHY
       }
+
+      this.giphyPreviewQuality = "preview_gif";
+      if (props.giphyPreviewQuality != null) {
+          this.giphyPreviewQuality = props.giphyPreviewQuality;
+      }
+
+      this.tenorPreviewQuality = "nanogif";
+      if (props.tenorPreviewQuality != null) {
+          this.tenorPreviewQuality = props.tenorPreviewQuality;
+      }
             
       this.state = {
         gifs: [],
@@ -445,16 +455,16 @@ class GifSearch extends PureComponent {
               var gif_better_quality = null;
 
               if (item.provider == providers.TENOR) {
-                gif_preview = item.media[0].nanogif.url
+                gif_preview = item.media[0][this.tenorPreviewQuality].url
                 gif_better_quality = item.media[0].tinygif.url
                 if (parseInt(item.media[0].tinygif.dims[1])) {
                     aspect_ratio = parseInt(item.media[0].tinygif.dims[0])/parseInt(item.media[0].tinygif.dims[1])
                 }
               } else {
-                gif_preview = item.images.preview_gif.url
+                gif_preview = item.images[[this.giphyPreviewQuality]].url
                 gif_better_quality = item.images.downsized.url
-                if (parseInt(item.images.preview_gif.height)) {
-                    aspect_ratio = parseInt(item.images.preview_gif.width)/parseInt(item.images.preview_gif.height)
+                if (parseInt(item.images[[this.giphyPreviewQuality]].height)) {
+                    aspect_ratio = parseInt(item.images[[this.giphyPreviewQuality]].width)/parseInt(item.images[[this.giphyPreviewQuality]].height)
                 }
               }
 

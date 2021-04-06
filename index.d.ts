@@ -179,6 +179,8 @@ declare module 'react-native-gif-search' {
     showStickersButtonText?: string;
     placeholderTextColor?: string;
     loadingSpinnerColor?: string;
+    giphyPreviewQuality?: keyof GiphyImages;
+    tenorPreviewQuality?: keyof TenorGifFormats;
 
     style?: ViewStyle;
     textInputStyle?: TextStyle;

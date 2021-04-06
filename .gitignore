@@ -1,4 +1,4 @@
 *.tgz
-android/local.properties
-node_modules/
+example/android/local.properties
+node_modules
 .DS_Store
