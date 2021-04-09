@@ -22,6 +22,8 @@ declare module 'react-native-gif-search' {
 
   type Rating = "y" | "g" | "pg" | "pg-13" | "r";
 
+  type MediaFormats = "low" | "medium" | "high";
+
   interface GiphyImages {
     fixed_height: BaseImage & {
       size: string;
@@ -179,8 +181,8 @@ declare module 'react-native-gif-search' {
     showStickersButtonText?: string;
     placeholderTextColor?: string;
     loadingSpinnerColor?: string;
-    giphyPreviewQuality?: keyof GiphyImages;
-    tenorPreviewQuality?: keyof TenorGifFormats;
+    previewGifQuality?: MediaFormats;
+    selectedGifQuality?: MediaFormats;
 
     style?: ViewStyle;
     textInputStyle?: TextStyle;

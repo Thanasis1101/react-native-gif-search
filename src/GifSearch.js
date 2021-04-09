@@ -35,6 +35,18 @@ const endpoints = {
   SEARCH: "search",
 }
 
+const giphyFormats = {
+    low: "preview_gif",
+    medium: "fixed_width",
+    high: "downsized_large"
+}
+
+const tenorFormats = {
+    low: "nanogif",
+    medium: "tinygif",
+    high: "mediumgif"
+}
+
 class GifSearch extends PureComponent {
 
     constructor(props) {
@@ -124,15 +136,21 @@ class GifSearch extends PureComponent {
           this.provider = providers.GIPHY
       }
 
-      this.giphyPreviewQuality = "preview_gif";
-      if (props.giphyPreviewQuality != null) {
-          this.giphyPreviewQuality = props.giphyPreviewQuality;
+      this.previewGifQuality = "low";
+      if (props.previewGifQuality != null) {
+          this.previewGifQuality = props.previewGifQuality;
       }
 
-      this.tenorPreviewQuality = "nanogif";
-      if (props.tenorPreviewQuality != null) {
-          this.tenorPreviewQuality = props.tenorPreviewQuality;
+      this.selectedGifQuality = "medium";
+      if (props.selectedGifQuality != null) {
+          this.selectedGifQuality = props.selectedGifQuality;
       }
+
+      this.tenorGifPreview = tenorFormats[this.previewGifQuality];
+      this.tenorGifSelected = tenorFormats[this.selectedGifQuality];
+
+      this.giphyGifPreview = giphyFormats[this.previewGifQuality];
+      this.giphyGifSelected = giphyFormats[this.selectedGifQuality];
             
       this.state = {
         gifs: [],
@@ -233,7 +251,6 @@ class GifSearch extends PureComponent {
               "key": this.tenorApiKey,
               "limit": limit,
               "locale": "el_GR",
-              "media_filter": "basic",
               "contentfilter": "medium",
               ...this.state.next != 0 && {"pos": this.state.next},
               ...this.props.tenorApiProps,
@@ -455,16 +472,16 @@ class GifSearch extends PureComponent {
               var gif_better_quality = null;
 
               if (item.provider == providers.TENOR) {
-                gif_preview = item.media[0][this.tenorPreviewQuality].url
-                gif_better_quality = item.media[0].tinygif.url
-                if (parseInt(item.media[0].tinygif.dims[1])) {
-                    aspect_ratio = parseInt(item.media[0].tinygif.dims[0])/parseInt(item.media[0].tinygif.dims[1])
+                gif_preview = item.media[0][this.tenorGifPreview].url
+                gif_better_quality = item.media[0][this.tenorGifSelected].url
+                if (parseInt(item.media[0][this.tenorGifSelected].dims[1])) {
+                    aspect_ratio = parseInt(item.media[0][this.tenorGifSelected].dims[0])/parseInt(item.media[0][this.tenorGifSelected].dims[1])
                 }
               } else {
-                gif_preview = item.images[this.giphyPreviewQuality].url
-                gif_better_quality = item.images.downsized.url
-                if (parseInt(item.images[this.giphyPreviewQuality].height)) {
-                    aspect_ratio = parseInt(item.images[this.giphyPreviewQuality].width)/parseInt(item.images[this.giphyPreviewQuality].height)
+                gif_preview = item.images[this.giphyGifPreview].url
+                gif_better_quality = item.images[this.giphyGifSelected].url
+                if (parseInt(item.images[this.giphyGifSelected].height)) {
+                    aspect_ratio = parseInt(item.images[this.giphyGifSelected].width)/parseInt(item.images[this.giphyGifSelected].height)
                 }
               }
 

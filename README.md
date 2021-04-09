@@ -217,8 +217,8 @@ Usage examples: [JS code](Examples/js-example/App.js), [TS code](Examples/ts-exa
 | `showStickersButtonSelectedTextStyle` | No | Additional style for the text of the button that shows stickers when the button is selected and `gifType` is `"all"`. | |
 | `showStickersButtonStyle` | No | Additional style for the button that shows stickers when `gifType` is `"all"`. | |
 | `showStickersButtonSelectedStyle` | No | Additional style for the button that shows stickers when it is selected and `gifType` is `"all"`. | |
-| `giphyPreviewQuality` | No | Additional parameter to select Giphy preview source media type. Please refer to [Giphy Images Object](https://developers.giphy.com/docs/api/schema#image-object).  | |
-| `tenorPreviewQuality` | No | Additional parameter to select Tenor preview source media type. Please refer to [Tenor GIF Formats](https://tenor.com/gifapi/documentation#responseobjects-gifformat). | |
+| `previewGifQuality` | No | Additional parameter to choose GIF preview source media type. | |
+| `selectedGifQuality` | No | Additional parameter to choose GIF selected source media type. | |
 
 ## Attribution
 If you wish to **publish your app** and go from development to production you need to follow some steps for every API that you use.
