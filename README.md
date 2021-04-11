@@ -186,7 +186,7 @@ You can import only the logos that you need and use them like this: `<Image sour
 | `maxGifsToLoad` | No | On how many gifs to stop loading more gifs | `60` |
 | `providerLogo` | No | The logo to appear on top right corner (e.g.`providerLogo={poweredByTenorLogoGrey}`)| |
 | `providerLogoStyle` | No | The style of the provider's logo (e.g.`providerLogoStyle={{width:'40%'}}`)| |
-| `placeholderText` | No | The text for when there is no search term and `gifType` is set to `"gif"`. If `gifType` is set to `"all"` then this is the placeholder while gifs button is selected. See also [Data Usage](#data-usage) section below. | `'Search GIF'` |
+| `placeholderText` | No | The text for when there is no search term and `gifType` is set to `"gif"`. If `gifType` is set to `"all"` then this is the placeholder while gifs button is selected. | `'Search GIF'` |
 | `stickersPlaceholderText` | No | The text for when there is no search term and `gifType` is set to `"sticker"`. If `gifType` is set to `"all"` then this is the placeholder while stickers button is selected. | `'Search Stickers'` |
 | `visible` | No | Can be used for toggling the view for the gif selection (e.g. open on button press) | `true` |
 | `previewGifQuality` | No | Set the quality of the GIFs that appear inside the GifSearch component. Can be `"low"`, `"medium"` or `"high"`. See also [Data Usage](#data-usage) section below. | `"low"` |
