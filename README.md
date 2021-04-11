@@ -190,7 +190,7 @@ You can import only the logos that you need and use them like this: `<Image sour
 | `stickersPlaceholderText` | No | The text for when there is no search term and `gifType` is set to `"sticker"`. If `gifType` is set to `"all"` then this is the placeholder while stickers button is selected. | `'Search Stickers'` |
 | `visible` | No | Can be used for toggling the view for the gif selection (e.g. open on button press) | `true` |
 | `previewGifQuality` | No | Set the quality of the GIFs that appear inside the GifSearch component. Can be `"low"`, `"medium"` or `"high"`. See also [Data Usage](#data-usage) section below. | `"low"` |
-| `selectedGifQuality` | No | Set the quality of the GIF that is the first parameter of the `onGifSelected` and `onGifLongPress`. Can be `"low"`, `"medium"` or `"high"`. See also [Data Usage] section below. | `"medium"` |
+| `selectedGifQuality` | No | Set the quality of the GIF that is the first parameter of the `onGifSelected` and `onGifLongPress`. Can be `"low"`, `"medium"` or `"high"`. See also [Data Usage](#data-usage) section below. | `"medium"` |
 | `onBackPressed` | No | Function for when the device's back button is pressed. Used with `visible={this.state.visible}` for closing the gif selection when back button is pressed. If not set then default action is taken. If set then default action is ignored while gif selection is visible. Recommended usage: `onBackPressed={() => {this.setState({visible: false})}}` | |
 | `onError` | No | Function to be called when an error occures, e.g. no internet connection | |
 | `horizontal` | No | Set the orientation of the list with the gifs. Horizontal if true, vertical if false  | `true` |
