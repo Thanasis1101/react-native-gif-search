@@ -170,13 +170,14 @@ You can import only the logos that you need and use them like this: `<Image sour
   <img src="https://raw.githubusercontent.com/Thanasis1101/react-native-gif-search/master/Preview/react-native-gif-search-stickers-example-screenshot.png" width="250" title="react-native-gif-search stickers example screenshot">
 </p>
 
-Usage examples: [JS code](Examples/js-example/App.js), [TS code](Examples/ts-example/src/components/GifPicker.tsx).
+**Usage examples**: [JS code](Examples/js-example/App.js), [TS code](Examples/ts-example/src/components/GifPicker.tsx).
 
 # Properties
 
 | Property name | Required | Explanation | Default |
 | --- | --- | --- | --- |
-| `onGifSelected` | Yes | Function to be called when user clicks on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). The Giphy object (second parameter) also contains the provider (`"giphy"`, `"tenor"`) and the type (`"gif"`, `"sticker"`). See a usage example of this in `onGifSelected` function of [App.js](Examples/js-example/App.js) | |
+| `onGifSelected` | Yes | Function to be called when user clicks on a gif. The parameters of this function is a string with the url of the selected gif in better quality and the whole Giphy/Tenor object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/) and the properties of a Tenor object [here](https://tenor.com/gifapi/documentation#responseobjects-gif). The gif object (second parameter) also contains the provider (`"giphy"`, `"tenor"`) and the type (`"gif"`, `"sticker"`). See a usage example of this in `onGifSelected` function of [App.js](Examples/js-example/App.js). | |
+| `onGifLongPress` | No | Function to be called when the user long presses on a gif. The parameters of this function is a string with the url of the gif in better quality and the whole Giphy/Tenor object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/) and the properties of a Tenor object [here](https://tenor.com/gifapi/documentation#responseobjects-gif). The gif object (second parameter) also contains the provider (`"giphy"`, `"tenor"`) and the type (`"gif"`, `"sticker"`). See a usage example of this in `onGifLongPress` function of [App.js](Examples/js-example/App.js). | |
 | `giphyApiKey` | Yes, except if `provider={"tenor"}` | The Giphy API key you obtained (see step 1 [here](https://medium.com/just-ship-it-coding/integrating-giphy-api-in-react-native-8dc55dc172c8)) |  |
 | `tenorApiKey` | No | The Tenor API key you obtained from [here](https://tenor.com/developer/keyregistration) |  |
 | `provider` | No | From which provider to load gifs. Can be `"tenor"`, `"giphy"` or `"all"`. | `"all"` |
@@ -200,7 +201,6 @@ Usage examples: [JS code](Examples/js-example/App.js), [TS code](Examples/ts-exa
 | `placeholderTextColor` | No | The color of the placeholder for the search text input | `'grey'` |
 | `showScrollBar` | No | Whether to show or not the scroll bar / scroll indicator | `true` |
 | `numColumns` | No | How many columns of gifs to show. When this is used, `horizontal` is automatically set to false | |
-| `onGifLongPress` | No | Function to be called when the user long presses on a gif. The parameters of this function is a string with the url of the gif in better quality and the whole Giphy object in case the developer wants to use a different url or more info about the selected gif. See the properties of a Giphy object [here](https://developers.giphy.com/docs/api/schema/). | |
 | `gifListProps` | No | Additional properties for the FlatList with the gifs | |
 | `textInputProps` | No | Additional properties for the TextInput with the search term (e.g. `textInputProps={{autoFocus: true}}`) | |
 | `noGifsFoundText` | No | Text to display when no gifs are found | `'No GIFS found'` |
@@ -217,8 +217,8 @@ Usage examples: [JS code](Examples/js-example/App.js), [TS code](Examples/ts-exa
 | `showStickersButtonSelectedTextStyle` | No | Additional style for the text of the button that shows stickers when the button is selected and `gifType` is `"all"`. | |
 | `showStickersButtonStyle` | No | Additional style for the button that shows stickers when `gifType` is `"all"`. | |
 | `showStickersButtonSelectedStyle` | No | Additional style for the button that shows stickers when it is selected and `gifType` is `"all"`. | |
-| `previewGifQuality` | No | Additional parameter to choose GIF preview source media type. | |
-| `selectedGifQuality` | No | Additional parameter to choose GIF selected source media type. | |
+| `previewGifQuality` | No | Set the quality of the GIFs that appear inside the GifSearch component. Can be `"low"`, `"medium"` or `"high"`. See also [Data Usage] section below. | `"low"` |
+| `selectedGifQuality` | No | Set the quality of the GIF that is the first parameter of the `onGifSelected` and `onGifLongPress`. Can be `"low"`, `"medium"` or `"high"`. See also [Data Usage] section below. | `"medium"` |
 
 ## Attribution
 If you wish to **publish your app** and go from development to production you need to follow some steps for every API that you use.
@@ -234,12 +234,28 @@ Source: https://tenor.com/gifapi/documentation#attribution
 ### Giphy
 For the Giphy API you need to upgrade the Giphy API key. To do so, you must verify that you have used the Giphy attribution marks (Giphy logos) in your app, by providing screenshots and videos from your app. The verification process can take up to 3 days. The `react-native-gif-search` package can help you with this too, because it has a property for adding a logo on top right corner (see `providerLogo` in [Properties](#properties) section) or you can include a Giphy logo near your shared GIF using the logos you can import from this package (see [Import](#import) section).
 
+## Data usage
+The quality of the GIFs is an important factor when it comes to how much mobile data the component uses. When the user is connected through cellular data and not wifi, then it is easy to consume a lot of data while loading GIFs. That's why `react-native-gif-search` uses by default a low quality for the preview of the GIFs and a better (medium) quality for the selected GIF. Of course the developer can change this according to the specifications of the app that uses this package. If you are concerned about data usage, you can also have a look at [this article](https://developers.giphy.com/docs/optional-settings/#rendition-guide) for Giphy API. Also click [here](https://developers.giphy.com/docs/api/schema#image-object) to see available format types for Giphy, and [here](https://tenor.com/gifapi/documentation#responseobjects-gifformat) for Tenor.
+
+
+The values of the `previewGifQuality` and `selectedGifQuality` properties correspond to these (Giphy/Tenor) API values:
+
+| Property value | Giphy API value | Tenor API value |
+| --- | --- | --- |
+| `"low"` | `preview_gif` | `nanogif` |
+| `"medium"` | `fixed_width` | `tinygif` |
+| `"high"` | `downsized_large` | `mediumgif` |
+
 ## Warnings :warning:
 - If your GifSearch component is nested in a `ScrollView` you should add `keyboardShouldPersistTaps={"handled"}` property in the ScrollView (like in [example code](Examples/js-example/App.js)), otherwise the scrolling will probably be luggy.
 - If you want to have `borderRadius` for a GIF, you should also use `overlayColor`, otherwise there will probably be no border radius when you test it. See `gifComponent` style in [GifPicker example code](Examples/ts-example/src/components/GifPicker.tsx)). To find out more about this issue check [this StackOverflow answer](https://stackoverflow.com/a/41715524/7053344).
 
 
 ## Version History
+
+- v1.3.1
+  - **Added previewGifQuality and selectedGifQuality**
+    - Credits to [anthlasserre](https://github.com/anthlasserre) for adding properties that handle the quality of the gifs (see pull request [#10](https://github.com/Thanasis1101/react-native-gif-search/pull/10)). 
 
 - v1.3.0
   - **Added support for TypeScript**
