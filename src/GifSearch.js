@@ -263,7 +263,6 @@ class GifSearch extends PureComponent {
               "q": this.state.search_term,
               "limit": limit,
               "locale": "el_GR",
-              "media_filter": "basic",
               "contentfilter": "high",
               ...this.state.next != 0 && {"pos": this.state.next},
               ...this.props.tenorApiProps,
