@@ -246,12 +246,17 @@ The values of the `previewGifQuality` and `selectedGifQuality` properties corres
 | `"medium"` | `fixed_width` | `tinygif` |
 | `"high"` | `downsized_large` | `mediumgif` |
 
+If you wish to use other quality values or in general have more control over API request values, you can use `tenorApiProps` and `giphyApiProps` properties (see [Properties](#properties) section above).
+
 ## Warnings :warning:
 - If your GifSearch component is nested in a `ScrollView` you should add `keyboardShouldPersistTaps={"handled"}` property in the ScrollView (like in [example code](Examples/js-example/App.js)), otherwise the scrolling will probably be luggy.
 - If you want to have `borderRadius` for a GIF, you should also use `overlayColor`, otherwise there will probably be no border radius when you test it. See `gifComponent` style in [GifPicker example code](Examples/ts-example/src/components/GifPicker.tsx)). To find out more about this issue check [this StackOverflow answer](https://stackoverflow.com/a/41715524/7053344).
 
 
 ## Version History
+
+- v1.3.2
+  - Fixed the [#11](https://github.com/Thanasis1101/react-native-gif-search/pull/11) bug. 
 
 - v1.3.1
   - **Added previewGifQuality and selectedGifQuality**
