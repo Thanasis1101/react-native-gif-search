@@ -57,6 +57,8 @@ export default class App extends React.Component {
           noGifsFoundTextStyle={{fontWeight: 'bold'}}
           textInputProps={{autoFocus: true}}
           gifType={"all"}
+          previewGifQuality={"low"}
+          selectedGifQuality={"medium"}
         />
         <View style={styles.gifPreview}>
             {this.state.gif_url ?

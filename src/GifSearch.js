@@ -148,9 +148,11 @@ class GifSearch extends PureComponent {
 
       this.tenorGifPreview = tenorFormats[this.previewGifQuality];
       this.tenorGifSelected = tenorFormats[this.selectedGifQuality];
+      this.tenorMediaFilter = this.calcTenorMediaFilter(this.tenorGifPreview, this.tenorGifSelected);
 
       this.giphyGifPreview = giphyFormats[this.previewGifQuality];
       this.giphyGifSelected = giphyFormats[this.selectedGifQuality];
+
             
       this.state = {
         gifs: [],
@@ -167,6 +169,12 @@ class GifSearch extends PureComponent {
         visible: props.visible != null ? props.visible : true,
       }
 
+  }
+
+  calcTenorMediaFilter = (tenorGifPreview, tenorGifSelected) => {
+    if (tenorGifPreview == "mediumgif" || tenorGifSelected == "mediumgif") { return null; }
+    if (tenorGifPreview == "nanogif" || tenorGifSelected == "nanogif") { return "basic"; }
+    return "minimal";
   }
 
   refreshGifs = () => {
@@ -252,6 +260,7 @@ class GifSearch extends PureComponent {
               "limit": limit,
               "locale": "el_GR",
               "contentfilter": "medium",
+              ...this.tenorMediaFilter != null && {"media_filter": this.tenorMediaFilter},
               ...this.state.next != 0 && {"pos": this.state.next},
               ...this.props.tenorApiProps,
           })
@@ -263,7 +272,8 @@ class GifSearch extends PureComponent {
               "q": this.state.search_term,
               "limit": limit,
               "locale": "el_GR",
-              "contentfilter": "high",
+              "contentfilter": "medium",
+              ...this.tenorMediaFilter != null && {"media_filter": this.tenorMediaFilter},
               ...this.state.next != 0 && {"pos": this.state.next},
               ...this.props.tenorApiProps,
           })
