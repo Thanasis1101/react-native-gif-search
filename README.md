@@ -42,6 +42,8 @@ implementation 'com.facebook.fresco:fresco:2.0.0'
 implementation 'com.facebook.fresco:animated-gif:2.0.0'
 ```
 
+**Note**: The fresco version depends on the React Native version. The above fresco version (`2.0.0`) is used for RN >= 0.60. For RN >= 0.65 use fresco version `2.5.0`. For RN < 0.60 use 1.x fresco versions (eg. `1.10.0` for RN 0.59 etc.). For more information or questions or for providing additional information about this, check the issue [#13](https://github.com/Thanasis1101/react-native-gif-search/issues/13). Credits to [dreamerchandra](https://github.com/dreamerchandra) for pointing this out.
+
 ## Usage
 
 ### Example Projects
