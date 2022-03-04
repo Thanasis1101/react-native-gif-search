@@ -551,7 +551,6 @@ class GifSearch extends PureComponent {
         color: 'white'
     },
     image: {
-        borderWidth: 3,
         marginRight: 10,
         marginBottom: 10
     },
