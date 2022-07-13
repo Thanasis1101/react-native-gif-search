@@ -7,12 +7,16 @@ declare module 'react-native-gif-search' {
     GIPHY = 'giphy',
     ALL = 'all',
   }
+  
+  type Provider = `${Providers}`;
 
   enum GifTypes {
     GIF = 'gif',
     STICKER = 'sticker',
     ALL = 'all',
   }
+  
+  type GifType = `${GifTypes}`;
 
   interface BaseImage {
     url: string;
@@ -174,9 +178,9 @@ declare module 'react-native-gif-search' {
     noGifsFoundText?: string;
     horizontal?: boolean;
     numColumns?: number;
-    provider?: keyof typeof Providers;
+    provider?: Provider;
     providerLogo?: string;
-    gifType?: keyof typeof GifTypes;
+    gifType?: GifType;
     showGifsButtonText?: string;
     showStickersButtonText?: string;
     placeholderTextColor?: string;
